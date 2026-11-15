@@ -628,3 +628,24 @@ Buscas incluíram BANKING77 com termos validation/split/BERT; selective classifi
 - **Fontes:** [instalação do uv](https://docs.astral.sh/uv/getting-started/installation/), [integração uv/PyTorch](https://docs.astral.sh/uv/guides/integration/pytorch/), [instalação e verificação CUDA do PyTorch](https://docs.pytorch.org/get-started/locally/) e [commit de origem dos CSVs oficiais](https://github.com/PolyAI-LDN/task-specific-datasets/commit/9d081458ff52e53cf7e848f414e6e9344e4e6696).
 - **Achado:** uv pode instalar Python e sincronizar o ambiente; a variante de PyTorch depende do sistema e da GPU. A documentação alerta que a seleção automática de backend do PyTorch por `uv` está disponível na interface `uv pip`, não devendo ser presumida para `uv sync`. CUDA precisa ser verificada no ambiente real.
 - **Limite:** nesta sessão, `nvidia-smi` não conseguiu acessar o driver; Python 3.11, uv e as bibliotecas não foram encontrados. Isso não demonstra ausência de GPU ou driver no terminal do autor. Não houve download nem instalação; o tamanho exato da instalação depende das versões e do backend selecionado.
+
+## R59 — Achados da auditoria dos dados preparados
+
+- **Consulta:** inspeção de `resultados/preparacao/audit.json` após bloqueio do diagnóstico; nenhum dado foi alterado.
+- **Achados:** 9.002 exemplos de treino, 1.001 de validação e 3.080 de teste; nenhum texto ou rótulo vazio, nenhuma duplicata textual exata e nenhum grupo com rótulos conflitantes. Após normalizar espaços apenas para comparação, 12 grupos duplicados, sendo 7 entre treino e teste; os rótulos dos pares coincidem.
+- **Natureza:** seis pares diferem por quebras de linha externas e um por espaço interno repetido. Os 7 exemplos de teste representam aproximadamente 0,23% do teste. A normalização serviu à auditoria; os textos originais não foram modificados.
+- **Limite:** coincidência após normalizar espaços não garante que ambos os tokenizers produzam a mesma entrada, nem demonstra quanto o resultado final será afetado.
+- **Decisão do autor:** manter textos e divisões oficiais, registrar a limitação e prosseguir. A decisão está vinculada à auditoria em `resultados/preparacao/audit_review.json`.
+
+## R60 — Diagnóstico de hardware
+
+- **Fonte:** `resultados/diagnostico/diagnostic.json`, execução local na RTX 3070 Ti Laptop de 8 GB.
+- **Achados:** status `ready`; batch 32, limite de 128 tokens e AMP FP16. O maior texto de treino ou validação tinha 98 tokens para ambos os modelos. Na medição de estabilidade, o BERT pulou 1 de 100 atualizações medidas após as 20 iniciais; o FinBERT não pulou nenhuma. O BERT ficou no limite de 1% adotado pelo diagnóstico.
+- **Projeção:** aproximadamente 60 minutos para 12 execuções de cinco épocas, incluindo validação e salvamento estimados por época. É uma estimativa baseada em 512 exemplos; não inclui carregamento e previsões e pode diferir do tempo real.
+- **Limite:** o diagnóstico usa seu próprio ciclo de medição e não verifica a integração do `Trainer` usada no treinamento científico; a verificação curta posterior está registrada em R61. Não há resultados científicos nesta etapa.
+
+## R61 — Verificação curta do Trainer
+
+- **Procedimento:** BERT, AMP FP16, seed 13, taxa 2e-5, batch 32; cinco épocas com 32 exemplos de treino e 32 de validação. Artefatos temporários; teste final não utilizado.
+- **Resultado:** cinco avaliações, seleção e salvamento concluídos; os logits coincidiram após recarregar os pesos (`rtol=1e-5`, `atol=1e-6`). Houve uma atualização pulada na fase inicial, das cinco tentativas.
+- **Limites:** essa amostra não mede a estabilidade do AMP após a fase inicial nem o desempenho científico; não exercita o comando completo de treinamento nem verifica o FinBERT.

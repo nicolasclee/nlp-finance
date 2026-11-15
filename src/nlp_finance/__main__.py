@@ -58,23 +58,23 @@ def main() -> None:
         result = run_diagnostic(args.preparation, revisions, args.output, args.device)
         print(json.dumps({"status": result["status"], "output": str(args.output)}, ensure_ascii=False))
     elif args.command == "train":
-        from .experiment import train_one
+        from .experiment.train import train_one
 
         config = json.loads(args.config.read_text(encoding="utf-8"))
         result = train_one(args.preparation, args.diagnostic, config, args.output)
         print(json.dumps(result, ensure_ascii=False, indent=2))
     elif args.command == "freeze":
-        from .freeze import freeze_protocol
+        from .experiment.freeze import freeze_protocol
 
         freeze_protocol(args.preparation, args.runs, args.output)
         print(f"Protocolo congelado em {args.output}")
     elif args.command == "evaluate":
-        from .final_evaluation import evaluate_frozen
+        from .experiment.final_evaluation import evaluate_frozen
 
         evaluate_frozen(args.preparation, args.frozen, args.output, args.device)
         print(f"Resultados salvos em {args.output}")
     elif args.command == "report":
-        from .report import create_report
+        from .experiment.report import create_report
 
         create_report(args.preparation, args.frozen, args.evaluation, args.output)
         print(f"Relatório salvo em {args.output}")

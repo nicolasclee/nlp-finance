@@ -3,11 +3,11 @@
 import json
 from pathlib import Path
 
-from .data import sha256
-from .dataset import load_prepared_data
-from .evaluation import classification_metrics, prediction_scores, select_thresholds
-from .model_selection import select_epoch, select_rate
-from .predictions import load_predictions
+from ..data import sha256
+from ..dataset import load_prepared_data
+from ..evaluation import classification_metrics, prediction_scores, select_thresholds
+from ..model_selection import select_epoch, select_rate
+from ..predictions import load_predictions
 
 
 MODELS = ("google-bert/bert-base-uncased", "yiyanghkust/finbert-pretrain")

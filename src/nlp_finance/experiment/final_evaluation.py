@@ -6,12 +6,12 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from .data import sha256
-from .dataset import load_prepared_data
-from .evaluation import classification_metrics, evaluate_predictions
-from .model import load_model
-from .predictions import load_predictions, predict, save_predictions
-from .tokenization import load_tokenizer, token_lengths
+from ..data import sha256
+from ..dataset import load_prepared_data
+from ..evaluation import classification_metrics, evaluate_predictions
+from ..model import load_model
+from ..predictions import load_predictions, predict, save_predictions
+from ..tokenization import load_tokenizer, token_lengths
 
 
 # Confere a preparação e gera resultados para as seis execuções selecionadas.

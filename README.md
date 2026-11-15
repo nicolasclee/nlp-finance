@@ -152,9 +152,9 @@ O diagnóstico usa a GPU em treinamentos curtos para medir memória, velocidade 
 - `training.py` e `trainer_training.py`: diagnóstico numérico, treinamento com `Trainer` e registro de uma tentativa.
 - `dataset.py`: reconstrução das divisões e montagem dos lotes.
 - `hardware_diagnostic/`: medições de recursos antes dos treinamentos completos.
+- `experiment/`: coordenação do treinamento, seleção, avaliação final e relatório.
 - `constants.py`: constantes compartilhadas, como o número de intenções.
-- `predictions.py`, `freeze.py` e `evaluation.py`: previsões, congelamento e métricas.
-- `final_evaluation.py` e `report.py`: avaliação final e consolidação dos resultados.
+- `predictions.py` e `evaluation.py`: previsões e métricas compartilhadas pelos fluxos.
 - `__main__.py`: comando de preparação executado pelo terminal.
 
 ## Depois do diagnóstico

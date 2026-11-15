@@ -6,14 +6,14 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from .data import sha256
-from .dataset import check_audit_review, load_prepared_data, make_dataloader
-from .checkpoints import checkpoint_files
-from .evaluation import classification_metrics, prediction_scores
-from .model import load_model
-from .predictions import predict, save_predictions
-from .tokenization import load_tokenizer
-from .training import run_training
+from ..data import sha256
+from ..dataset import check_audit_review, load_prepared_data, make_dataloader
+from ..checkpoints import checkpoint_files
+from ..evaluation import classification_metrics, prediction_scores
+from ..model import load_model
+from ..predictions import predict, save_predictions
+from ..tokenization import load_tokenizer
+from ..training import run_training
 
 
 # Treina uma configuração e salva suas previsões de validação, sem executar o teste.
@@ -33,7 +33,7 @@ def train_one(preparation: Path, diagnostic: Path, config: dict, output: Path) -
         "model.py", "training.py", "trainer_training.py", "tokenization.py", "dataset.py", "data.py",
         "evaluation.py", "predictions.py", "constants.py", "checkpoints.py",
     ):
-        current_file = Path(__file__).parent / filename
+        current_file = Path(__file__).parent.parent / filename
         if report.get("code_files", {}).get(filename) != sha256(current_file):
             raise ValueError(f"O código {filename} mudou após o diagnóstico; revisar antes de prosseguir")
     if checkpoint_files(model_name, config["revision"]) != report["checkpoint_files"][model_name]:

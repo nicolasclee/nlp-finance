@@ -8,10 +8,10 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 
-from .data import sha256
-from .dataset import load_prepared_data
-from .evaluation import prediction_scores
-from .predictions import load_predictions
+from ..data import sha256
+from ..dataset import load_prepared_data
+from ..evaluation import prediction_scores
+from ..predictions import load_predictions
 
 
 # Escreve uma tabela preservando a ordem explícita das colunas.

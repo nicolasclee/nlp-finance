@@ -1,0 +1,461 @@
+{
+  "counts": {
+    "train": {
+      "total": 9002,
+      "by_label": {
+        "Refund_not_showing_up": 146,
+        "activate_my_card": 143,
+        "age_limit": 99,
+        "apple_pay_or_google_pay": 113,
+        "atm_support": 78,
+        "automatic_top_up": 114,
+        "balance_not_updated_after_bank_transfer": 154,
+        "balance_not_updated_after_cheque_or_cash_deposit": 163,
+        "beneficiary_not_allowed": 140,
+        "cancel_transfer": 141,
+        "card_about_to_expire": 116,
+        "card_acceptance": 53,
+        "card_arrival": 138,
+        "card_delivery_estimate": 101,
+        "card_linking": 125,
+        "card_not_working": 101,
+        "card_payment_fee_charged": 168,
+        "card_payment_not_recognised": 151,
+        "card_payment_wrong_exchange_rate": 150,
+        "card_swallowed": 55,
+        "cash_withdrawal_charge": 159,
+        "cash_withdrawal_not_recognised": 144,
+        "change_pin": 110,
+        "compromised_card": 77,
+        "contactless_not_working": 32,
+        "country_support": 116,
+        "declined_card_payment": 138,
+        "declined_cash_withdrawal": 156,
+        "declined_transfer": 120,
+        "direct_debit_payment_not_recognised": 164,
+        "disposable_card_limits": 109,
+        "edit_personal_details": 109,
+        "exchange_charge": 109,
+        "exchange_rate": 101,
+        "exchange_via_app": 106,
+        "extra_charge_on_statement": 149,
+        "failed_transfer": 123,
+        "fiat_currency_support": 113,
+        "get_disposable_virtual_card": 87,
+        "get_physical_card": 95,
+        "getting_spare_card": 116,
+        "getting_virtual_card": 88,
+        "lost_or_stolen_card": 74,
+        "lost_or_stolen_phone": 109,
+        "order_physical_card": 108,
+        "passcode_forgotten": 95,
+        "pending_card_payment": 143,
+        "pending_cash_withdrawal": 129,
+        "pending_top_up": 134,
+        "pending_transfer": 133,
+        "pin_blocked": 104,
+        "receiving_money": 86,
+        "request_refund": 152,
+        "reverted_card_payment?": 145,
+        "supported_cards_and_currencies": 116,
+        "terminate_account": 97,
+        "top_up_by_bank_transfer_charge": 100,
+        "top_up_by_card_charge": 103,
+        "top_up_by_cash_or_cheque": 103,
+        "top_up_failed": 130,
+        "top_up_limits": 87,
+        "top_up_reverted": 131,
+        "topping_up_by_card": 93,
+        "transaction_charged_twice": 157,
+        "transfer_fee_charged": 155,
+        "transfer_into_account": 102,
+        "transfer_not_received_by_recipient": 154,
+        "transfer_timing": 115,
+        "unable_to_verify_identity": 92,
+        "verify_my_identity": 94,
+        "verify_source_of_funds": 102,
+        "verify_top_up": 113,
+        "virtual_card_not_working": 37,
+        "visa_or_mastercard": 121,
+        "why_verify_identity": 109,
+        "wrong_amount_of_cash_received": 162,
+        "wrong_exchange_rate_for_cash_withdrawal": 147
+      }
+    },
+    "validation": {
+      "total": 1001,
+      "by_label": {
+        "Refund_not_showing_up": 16,
+        "activate_my_card": 16,
+        "age_limit": 11,
+        "apple_pay_or_google_pay": 13,
+        "atm_support": 9,
+        "automatic_top_up": 13,
+        "balance_not_updated_after_bank_transfer": 17,
+        "balance_not_updated_after_cheque_or_cash_deposit": 18,
+        "beneficiary_not_allowed": 16,
+        "cancel_transfer": 16,
+        "card_about_to_expire": 13,
+        "card_acceptance": 6,
+        "card_arrival": 15,
+        "card_delivery_estimate": 11,
+        "card_linking": 14,
+        "card_not_working": 11,
+        "card_payment_fee_charged": 19,
+        "card_payment_not_recognised": 17,
+        "card_payment_wrong_exchange_rate": 17,
+        "card_swallowed": 6,
+        "cash_withdrawal_charge": 18,
+        "cash_withdrawal_not_recognised": 16,
+        "change_pin": 12,
+        "compromised_card": 9,
+        "contactless_not_working": 3,
+        "country_support": 13,
+        "declined_card_payment": 15,
+        "declined_cash_withdrawal": 17,
+        "declined_transfer": 13,
+        "direct_debit_payment_not_recognised": 18,
+        "disposable_card_limits": 12,
+        "edit_personal_details": 12,
+        "exchange_charge": 12,
+        "exchange_rate": 11,
+        "exchange_via_app": 12,
+        "extra_charge_on_statement": 17,
+        "failed_transfer": 14,
+        "fiat_currency_support": 13,
+        "get_disposable_virtual_card": 10,
+        "get_physical_card": 11,
+        "getting_spare_card": 13,
+        "getting_virtual_card": 10,
+        "lost_or_stolen_card": 8,
+        "lost_or_stolen_phone": 12,
+        "order_physical_card": 12,
+        "passcode_forgotten": 10,
+        "pending_card_payment": 16,
+        "pending_cash_withdrawal": 14,
+        "pending_top_up": 15,
+        "pending_transfer": 15,
+        "pin_blocked": 11,
+        "receiving_money": 9,
+        "request_refund": 17,
+        "reverted_card_payment?": 16,
+        "supported_cards_and_currencies": 13,
+        "terminate_account": 11,
+        "top_up_by_bank_transfer_charge": 11,
+        "top_up_by_card_charge": 11,
+        "top_up_by_cash_or_cheque": 11,
+        "top_up_failed": 15,
+        "top_up_limits": 10,
+        "top_up_reverted": 15,
+        "topping_up_by_card": 10,
+        "transaction_charged_twice": 18,
+        "transfer_fee_charged": 17,
+        "transfer_into_account": 11,
+        "transfer_not_received_by_recipient": 17,
+        "transfer_timing": 13,
+        "unable_to_verify_identity": 10,
+        "verify_my_identity": 10,
+        "verify_source_of_funds": 11,
+        "verify_top_up": 13,
+        "virtual_card_not_working": 4,
+        "visa_or_mastercard": 14,
+        "why_verify_identity": 12,
+        "wrong_amount_of_cash_received": 18,
+        "wrong_exchange_rate_for_cash_withdrawal": 16
+      }
+    },
+    "test": {
+      "total": 3080,
+      "by_label": {
+        "Refund_not_showing_up": 40,
+        "activate_my_card": 40,
+        "age_limit": 40,
+        "apple_pay_or_google_pay": 40,
+        "atm_support": 40,
+        "automatic_top_up": 40,
+        "balance_not_updated_after_bank_transfer": 40,
+        "balance_not_updated_after_cheque_or_cash_deposit": 40,
+        "beneficiary_not_allowed": 40,
+        "cancel_transfer": 40,
+        "card_about_to_expire": 40,
+        "card_acceptance": 40,
+        "card_arrival": 40,
+        "card_delivery_estimate": 40,
+        "card_linking": 40,
+        "card_not_working": 40,
+        "card_payment_fee_charged": 40,
+        "card_payment_not_recognised": 40,
+        "card_payment_wrong_exchange_rate": 40,
+        "card_swallowed": 40,
+        "cash_withdrawal_charge": 40,
+        "cash_withdrawal_not_recognised": 40,
+        "change_pin": 40,
+        "compromised_card": 40,
+        "contactless_not_working": 40,
+        "country_support": 40,
+        "declined_card_payment": 40,
+        "declined_cash_withdrawal": 40,
+        "declined_transfer": 40,
+        "direct_debit_payment_not_recognised": 40,
+        "disposable_card_limits": 40,
+        "edit_personal_details": 40,
+        "exchange_charge": 40,
+        "exchange_rate": 40,
+        "exchange_via_app": 40,
+        "extra_charge_on_statement": 40,
+        "failed_transfer": 40,
+        "fiat_currency_support": 40,
+        "get_disposable_virtual_card": 40,
+        "get_physical_card": 40,
+        "getting_spare_card": 40,
+        "getting_virtual_card": 40,
+        "lost_or_stolen_card": 40,
+        "lost_or_stolen_phone": 40,
+        "order_physical_card": 40,
+        "passcode_forgotten": 40,
+        "pending_card_payment": 40,
+        "pending_cash_withdrawal": 40,
+        "pending_top_up": 40,
+        "pending_transfer": 40,
+        "pin_blocked": 40,
+        "receiving_money": 40,
+        "request_refund": 40,
+        "reverted_card_payment?": 40,
+        "supported_cards_and_currencies": 40,
+        "terminate_account": 40,
+        "top_up_by_bank_transfer_charge": 40,
+        "top_up_by_card_charge": 40,
+        "top_up_by_cash_or_cheque": 40,
+        "top_up_failed": 40,
+        "top_up_limits": 40,
+        "top_up_reverted": 40,
+        "topping_up_by_card": 40,
+        "transaction_charged_twice": 40,
+        "transfer_fee_charged": 40,
+        "transfer_into_account": 40,
+        "transfer_not_received_by_recipient": 40,
+        "transfer_timing": 40,
+        "unable_to_verify_identity": 40,
+        "verify_my_identity": 40,
+        "verify_source_of_funds": 40,
+        "verify_top_up": 40,
+        "virtual_card_not_working": 40,
+        "visa_or_mastercard": 40,
+        "why_verify_identity": 40,
+        "wrong_amount_of_cash_received": 40,
+        "wrong_exchange_rate_for_cash_withdrawal": 40
+      }
+    }
+  },
+  "empty_text_ids": [],
+  "empty_label_ids": [],
+  "comparisons": {
+    "exact": [],
+    "whitespace": [
+      {
+        "text": "At which ATMs can I use this card?",
+        "occurrences": [
+          {
+            "id": "official_train:4576",
+            "label": "atm_support",
+            "split": "train"
+          },
+          {
+            "id": "official_test:1474",
+            "label": "atm_support",
+            "split": "test"
+          }
+        ],
+        "cross_split": true,
+        "conflicting_labels": false
+      },
+      {
+        "text": "Do I need to go to a physical bank to change my PIN?",
+        "occurrences": [
+          {
+            "id": "official_train:6910",
+            "label": "change_pin",
+            "split": "train"
+          },
+          {
+            "id": "official_train:6965",
+            "label": "change_pin",
+            "split": "train"
+          }
+        ],
+        "cross_split": false,
+        "conflicting_labels": false
+      },
+      {
+        "text": "How do I unblock my PIN?",
+        "occurrences": [
+          {
+            "id": "official_train:1722",
+            "label": "pin_blocked",
+            "split": "train"
+          },
+          {
+            "id": "official_test:554",
+            "label": "pin_blocked",
+            "split": "test"
+          }
+        ],
+        "cross_split": true,
+        "conflicting_labels": false
+      },
+      {
+        "text": "I can't seem to be able to use my card",
+        "occurrences": [
+          {
+            "id": "official_train:1246",
+            "label": "card_not_working",
+            "split": "train"
+          },
+          {
+            "id": "official_train:1290",
+            "label": "card_not_working",
+            "split": "train"
+          }
+        ],
+        "cross_split": false,
+        "conflicting_labels": false
+      },
+      {
+        "text": "I don't live in the UK. Can I still get a card?",
+        "occurrences": [
+          {
+            "id": "official_train:9921",
+            "label": "country_support",
+            "split": "train"
+          },
+          {
+            "id": "official_test:3070",
+            "label": "country_support",
+            "split": "test"
+          }
+        ],
+        "cross_split": true,
+        "conflicting_labels": false
+      },
+      {
+        "text": "I put the wrong pin too many times and now it is blocked. Can you help me unblock it?",
+        "occurrences": [
+          {
+            "id": "official_train:1710",
+            "label": "pin_blocked",
+            "split": "train"
+          },
+          {
+            "id": "official_train:1724",
+            "label": "pin_blocked",
+            "split": "train"
+          }
+        ],
+        "cross_split": false,
+        "conflicting_labels": false
+      },
+      {
+        "text": "There are a few transaction that I don't recognize, I think someone managed to get my card details and use it.",
+        "occurrences": [
+          {
+            "id": "official_train:4476",
+            "label": "compromised_card",
+            "split": "train"
+          },
+          {
+            "id": "official_test:1432",
+            "label": "compromised_card",
+            "split": "test"
+          }
+        ],
+        "cross_split": true,
+        "conflicting_labels": false
+      },
+      {
+        "text": "What businesses accept this card?",
+        "occurrences": [
+          {
+            "id": "official_train:3103",
+            "label": "card_acceptance",
+            "split": "train"
+          },
+          {
+            "id": "official_test:976",
+            "label": "card_acceptance",
+            "split": "test"
+          }
+        ],
+        "cross_split": true,
+        "conflicting_labels": false
+      },
+      {
+        "text": "Where can I use my card?",
+        "occurrences": [
+          {
+            "id": "official_train:3116",
+            "label": "card_acceptance",
+            "split": "train"
+          },
+          {
+            "id": "official_test:977",
+            "label": "card_acceptance",
+            "split": "test"
+          }
+        ],
+        "cross_split": true,
+        "conflicting_labels": false
+      },
+      {
+        "text": "Where can I withdraw money from?",
+        "occurrences": [
+          {
+            "id": "official_train:4594",
+            "label": "atm_support",
+            "split": "train"
+          },
+          {
+            "id": "official_train:4595",
+            "label": "atm_support",
+            "split": "train"
+          }
+        ],
+        "cross_split": false,
+        "conflicting_labels": false
+      },
+      {
+        "text": "Which ATMs accept this card?",
+        "occurrences": [
+          {
+            "id": "official_test:1441",
+            "label": "atm_support",
+            "split": "test"
+          },
+          {
+            "id": "official_test:1461",
+            "label": "atm_support",
+            "split": "test"
+          }
+        ],
+        "cross_split": false,
+        "conflicting_labels": false
+      },
+      {
+        "text": "Which cash machines will allow me to change my PIN?",
+        "occurrences": [
+          {
+            "id": "official_train:6984",
+            "label": "change_pin",
+            "split": "train"
+          },
+          {
+            "id": "official_test:2149",
+            "label": "change_pin",
+            "split": "test"
+          }
+        ],
+        "cross_split": true,
+        "conflicting_labels": false
+      }
+    ]
+  }
+}

@@ -218,7 +218,7 @@ As tabelas abaixo descrevem as funções disponíveis no código; não implicam 
 | `FP32ValidationTrainer` / `fp32_forward` | Adaptam a avaliação para FP32, inclusive quando o treino usa AMP; dependem da integração com Accelerate e ainda exigem validação real. |
 | `StabilityCallback` | Observa atualizações do Trainer, registra saltos e aplica a regra de estabilidade AMP. |
 | `compute_metrics` / `check_model_output` | Previsões → métricas de validação; saída do modelo → erro se logits ou perda não forem finitos. |
-| [experiment.py](src/nlp_finance/experiment.py) `train_one` | Preparação, diagnóstico, configuração e pasta → executa a tentativa, confere o checkpoint e salva previsões de validação. |
+| [train.py](src/nlp_finance/experiment/train.py) `train_one` | Preparação, diagnóstico, configuração e pasta → executa a tentativa, confere o checkpoint e salva previsões de validação. |
 | [model_selection.py](src/nlp_finance/model_selection.py) `select_epoch` | Métricas por época → maior acurácia; em empate, época mais antiga. |
 | `select_rate` | Duas taxas, cada uma com três resultados → taxa selecionada pela média da validação; usa desempates definidos no plano. |
 
@@ -238,10 +238,10 @@ As tabelas abaixo descrevem as funções disponíveis no código; não implicam 
 | `classification_metrics` | Rótulos e classes previstas → acurácia, Macro-F1 e métricas por classe. |
 | `risk_coverage_curve` | Scores e acertos → pontos de cobertura e erro ao final de cada bloco empatado. |
 | `evaluate_predictions` | Previsões e limiares já selecionados → métricas de classificação, calibração e abstenção. |
-| [freeze.py](src/nlp_finance/freeze.py) `read_completed_run` | Pasta de tentativa, exemplos de validação e hash da preparação → dados conferidos da execução e seus limiares. |
+| [freeze.py](src/nlp_finance/experiment/freeze.py) `read_completed_run` | Pasta de tentativa, exemplos de validação e hash da preparação → dados conferidos da execução e seus limiares. |
 | `freeze_protocol` | Preparação, 12 pastas e caminho de saída → protocolo congelado, com taxa e três seeds por modelo. |
-| [final_evaluation.py](src/nlp_finance/final_evaluation.py) `evaluate_frozen` | Preparação, protocolo congelado, pasta e dispositivo → previsões e métricas finais no teste. |
-| [report.py](src/nlp_finance/report.py) `write_table` / `summarize` | Linhas e colunas → CSV; valores → média e desvio-padrão amostral. |
+| [final_evaluation.py](src/nlp_finance/experiment/final_evaluation.py) `evaluate_frozen` | Preparação, protocolo congelado, pasta e dispositivo → previsões e métricas finais no teste. |
+| [report.py](src/nlp_finance/experiment/report.py) `write_table` / `summarize` | Linhas e colunas → CSV; valores → média e desvio-padrão amostral. |
 | `confusion_pairs` / `qualitative_examples` | Previsões e exemplos → pares mais confundidos e casos selecionados para análise. |
 | `create_report` | Preparação, protocolo e avaliação → tabelas, JSONs e figuras em pasta nova. |
 | [__main__.py](src/nlp_finance/__main__.py) `main` | Argumentos do terminal → chama um dos comandos acima. |
