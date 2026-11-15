@@ -1,0 +1,22 @@
+[project]
+name = "nlp-finance"
+version = "0.1.0"
+description = "Experimento de classificação de intenções no BANKING77"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "torch>=2.6,<3",
+    "transformers==4.57.1",
+    "accelerate==1.10.1",
+    "huggingface-hub>=0.24,<1",
+    "numpy>=1.26,<3",
+    "datasets>=2.18,<5",
+    "scikit-learn>=1.4,<2",
+    "matplotlib>=3.8,<4",
+]
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

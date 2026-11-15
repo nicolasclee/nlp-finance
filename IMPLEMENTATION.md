@@ -33,7 +33,7 @@ O autor acompanha as decisões que afetam validade e interpretação; a implemen
 
 ## 3. Uma execução e recuperação
 
-- **Objetivo / resultado:** implementar uma execução completa de treinamento dos pesos, validação por época e salvamento verificável; a validação escolhe a versão de cada execução pela maior acurácia, depois Macro-F1, depois versão mais antiga (D20–D21).
+- **Objetivo / resultado:** executar uma tentativa de treinamento dos pesos com o `Trainer` do Transformers, validação por época e salvamento verificável; a validação escolhe a versão de cada execução pela maior acurácia e, em empate, a versão mais antiga (D20–D21). A integração com AMP e validação em FP32 ainda precisa ser validada no ambiente real.
 - **Dependências / artefatos:** dados e modelo verificados; configuração, logs por época, checkpoint selecionado, histórico de tentativas e metadados de seleção. Planejar cinco épocas, AdamW com decay 0,01, warmup de 10% e decaimento linear; taxas de pico 2e-5 e 5e-5 (D23–D26).
 - **Verificações / conclusão:** checks separados para atualização de pesos, desempates de checkpoint, scheduler e equivalência das previsões em FP32 antes/depois de salvar e recarregar, com tolerância explícita. Testar que passo pulado não avança o scheduler. Um smoke test integra treino, validação e salvamento sem usar teste final.
 - **Recuperação conforme O2:** em falha ou interrupção, reiniciar a execução inteira com mesma configuração e seed, preservando todas as tentativas; só uma execução completa válida conta. Baixo desempenho isolado não é falha técnica. Correções que alterem treinamento ou resultados invalidam todas as execuções afetadas; mudanças de desenho exigem revisão com o autor.

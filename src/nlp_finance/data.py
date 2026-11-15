@@ -5,21 +5,16 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
-import math
-import random
 from collections import Counter, defaultdict
 from pathlib import Path
+from sklearn.model_selection import train_test_split
+from .constants import NUM_LABELS
 
 
 # Calcula a impressão digital de um arquivo sem carregá-lo inteiro.
 def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
     with path.open("rb") as source:
-        chunk = source.read(1024 * 1024)
-        while chunk:
-            digest.update(chunk)
-            chunk = source.read(1024 * 1024)
-    return digest.hexdigest()
+        return hashlib.file_digest(source, "sha256").hexdigest()
 
 
 # Lê o CSV oficial e associa cada linha à sua posição original.
@@ -47,46 +42,22 @@ def read_examples(path: Path, split: str) -> list[dict[str, str]]:
 def stratified_split(
     examples: list[dict[str, str]], seed: int = 42
 ) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
-    groups: dict[str, list[dict[str, str]]] = defaultdict(list)
-    for example in examples:
-        groups[example["label"]].append(example)
+    labels = [example["label"] for example in examples]
+    train_indices, validation_indices = train_test_split(
+        range(len(examples)),
+        test_size=0.10,
+        random_state=seed,
+        stratify=labels,
+    )
+    # Conserva a ordem original para manter os exemplos fáceis de rastrear.
+    train = [examples[index] for index in sorted(train_indices)]
+    validation = [examples[index] for index in sorted(validation_indices)]
 
-    if any(len(group) < 2 for group in groups.values()):
-        raise ValueError("Cada classe precisa de pelo menos dois exemplos para a divisão")
-
-    rng = random.Random(seed)
-    labels = sorted(groups)
-    target = math.ceil(len(examples) * 0.10)
-    if target < len(labels) or len(examples) - target < len(labels):
-        raise ValueError("A proporção de validação não permite representar todas as classes")
-
-    # Cada classe precisa aparecer tanto no treino quanto na validação.
-    quotas = {}
-    for label in labels:
-        class_size = len(groups[label])
-        desired_count = math.floor(class_size * 0.10)
-        quotas[label] = max(1, min(class_size - 1, desired_count))
-
-    # Ajusta as cotas para que o total corresponda a 10% dos exemplos.
-    while sum(quotas.values()) < target:
-        eligible = [label for label in labels if quotas[label] < len(groups[label]) - 1]
-        label = max(eligible, key=lambda item: (len(groups[item]) * 0.10 - quotas[item], item))
-        quotas[label] += 1
-
-    while sum(quotas.values()) > target:
-        eligible = [label for label in labels if quotas[label] > 1]
-        label = min(eligible, key=lambda item: (len(groups[item]) * 0.10 - quotas[item], item))
-        quotas[label] -= 1
-
-    validation_ids: set[str] = set()
-    for label in labels:
-        class_examples = list(groups[label])
-        rng.shuffle(class_examples)
-        for example in class_examples[:quotas[label]]:
-            validation_ids.add(example["id"])
-
-    train = [item for item in examples if item["id"] not in validation_ids]
-    validation = [item for item in examples if item["id"] in validation_ids]
+    expected_labels = set(labels)
+    if {example["label"] for example in train} != expected_labels:
+        raise ValueError("A divisão deixou alguma intenção fora do treino")
+    if {example["label"] for example in validation} != expected_labels:
+        raise ValueError("A divisão deixou alguma intenção fora da validação")
     return train, validation
 
 
@@ -132,14 +103,14 @@ def audit(splits: dict[str, list[dict[str, str]]]) -> dict:
 
 
 # Prepara os dados oficiais e salva divisão, auditoria e manifesto.
-def prepare(train_path: Path, test_path: Path, output: Path, revision: str) -> dict:
+def prepare_banking77_data(train_path: Path, test_path: Path, output: Path, revision: str) -> dict:
     if not revision.strip():
         raise ValueError("Informe a revisão imutável da origem dos dados")
 
     official_train = read_examples(train_path, "official_train")
     official_test = read_examples(test_path, "official_test")
     labels = sorted({item["label"] for item in official_train})
-    if len(labels) != 77 or len(official_train) != 10003 or len(official_test) != 3080:
+    if len(labels) != NUM_LABELS or len(official_train) != 10003 or len(official_test) != 3080:
         raise ValueError(
             f"Contagens inesperadas: treino={len(official_train)}, "
             f"teste={len(official_test)}, rótulos={len(labels)}; investigar a origem"

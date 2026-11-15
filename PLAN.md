@@ -181,13 +181,14 @@ As pesquisas e referências são mantidas em [RESEARCH.md](RESEARCH.md), com ach
 - **Decisão revisada e confirmada:** selecionar a versão treinada de cada modelo pela maior acurácia no conjunto de validação, calculada sem abstenção. Substitui a escolha inicial de Macro-F1 após a comparação crítica documentada em RESEARCH.md, R24. Macro-F1 continua no reporte e diagnóstico conforme D15.
 - **Motivo:** maximizar a proporção de intenções corretas com custo unitário por erro, alinhando seleção à comparação prática de encaminhamentos e à definição de erro seletivo. Estabelecer a regra antes dos resultados evita alternar retrospectivamente entre métricas.
 - **Fundamentação:** Casanueva et al. (2020), [BANKING77, tabela 3](https://aclanthology.org/2020.nlp4convai-1.5.pdf), usam acurácia para avaliação; Loukas et al. (2023), [nota 1 e tabela 4](https://stogiannidis.github.io/files/LLMPenny.pdf), confirmam teste balanceado e reportam Micro-F1/Macro-F1; Opitz (2024), [§4.1 e §4.4](https://aclanthology.org/2024.tacl-1.46.pdf), analisa propriedades e necessidade de justificar a escolha. Essas fontes sustentam a adequação do critério, sem provar que selecionar por acurácia supera selecionar por Macro-F1 neste projeto.
-- **Etapas:** escolher a versão com esse critério; fixá-la para comparar regras e selecionar limiares conforme D18. Macro-F1 atua somente no desempate de D21; AURC e ECE não escolhem a versão. Teste permanece fora da seleção.
+- **Etapas:** escolher a versão com esse critério; fixá-la para comparar regras e selecionar limiares conforme D18. Macro-F1, AURC e ECE não escolhem a versão; Macro-F1 permanece no reporte. Teste permanece fora da seleção.
 - **Limites:** acurácia maior não garante Macro-F1 maior ou AURC menor. Balanceamento do teste não implica validação perfeitamente balanceada. Avaliação por época e ausência inicial de early stopping confirmadas em D24; orçamento em D22. Não importar outros detalhes dos artigos automaticamente.
 
 ### D21 — Desempate na seleção de versões
 
-- **Decisão:** ordenar versões por maior acurácia de validação; em empate, maior Macro-F1; se ambas empatarem, manter a versão salva mais antiga na mesma execução.
-- **Motivo:** resolver empates com regra explícita e determinística, preservando acurácia como prioridade e aproveitando Macro-F1 como medida complementar.
+- **Decisão revisada:** escolher a maior acurácia de validação; em empate exato, manter a versão salva mais antiga na mesma execução. O autor aceitou a troca condicionada a precedente em estudo; a busca posterior encontrou esse precedente, com os limites abaixo.
+- **Motivo:** resolver empates de forma explícita e determinística, com o comportamento da classe Trainer consultada, simplificando a implementação. Macro-F1 continua sendo reportado e não desempata épocas.
+- **Fundamento e limite:** Zhang e Virtanen (2026), [§4](https://arxiv.org/html/2610.35329v1), usam maior acurácia macro e, em empate, checkpoint mais antigo em classificação de áudio; é precedente de uso, não comparação que prove superioridade do desempate neste projeto. RESEARCH.md, R50–R51. Pode selecionar uma época diferente da regra anterior, que priorizava Macro-F1 em empate.
 - **Precisão:** comparar contagem de acertos e métricas não arredondadas; não definir empates pelos percentuais exibidos na tela.
 - **Limite:** esta regra não seleciona a melhor seed para omitir outras repetições. Agregação confirmada em D39; desempate entre configurações proposto em O5.
 

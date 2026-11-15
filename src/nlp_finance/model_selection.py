@@ -4,10 +4,9 @@ from __future__ import annotations
 
 import math
 from collections.abc import Sequence
-from fractions import Fraction
 
 
-# Escolhe a época pela acurácia, Macro-F1 e, em último empate, pela mais antiga.
+# Escolhe a época pela acurácia e, em empate, pela mais antiga.
 def select_epoch(epochs: Sequence[dict]) -> dict:
     if not epochs:
         raise ValueError("Nenhuma época disponível para seleção")
@@ -15,11 +14,12 @@ def select_epoch(epochs: Sequence[dict]) -> dict:
         valid_counts = epoch["total"] > 0 and 0 <= epoch["correct"] <= epoch["total"]
         if not valid_counts or not math.isfinite(epoch["macro_f1"]):
             raise ValueError("Métricas de validação devem ser finitas")
+    if len({epoch["total"] for epoch in epochs}) != 1:
+        raise ValueError("Todas as épocas precisam usar o mesmo total de exemplos de validação")
 
     def ranking(epoch: dict) -> tuple:
-        accuracy = Fraction(epoch["correct"], epoch["total"])
-        # Uma época menor vence quando acurácia e Macro-F1 empatam.
-        return accuracy, epoch["macro_f1"], -epoch["epoch"]
+        # Com o mesmo total de exemplos, comparar acertos equivale a comparar acurácias.
+        return epoch["correct"], -epoch["epoch"]
 
     return max(epochs, key=ranking)
 
@@ -37,13 +37,15 @@ def select_rate(runs_by_rate: dict[float, Sequence[dict]]) -> float:
             valid_counts = run["total"] > 0 and 0 <= run["correct"] <= run["total"]
             if not valid_counts or not math.isfinite(run["macro_f1"]):
                 raise ValueError(f"Taxa {rate}: métricas devem ser finitas")
+    totals = {run["total"] for runs in runs_by_rate.values() for run in runs}
+    if len(totals) != 1:
+        raise ValueError("Todas as execuções precisam usar o mesmo total de exemplos de validação")
 
     def ranking(rate: float) -> tuple:
         runs = runs_by_rate[rate]
-        accuracies = [Fraction(run["correct"], run["total"]) for run in runs]
-        average_accuracy = sum(accuracies) / len(runs)
+        total_correct = sum(run["correct"] for run in runs)
         average_f1 = sum(run["macro_f1"] for run in runs) / len(runs)
         # Taxa menor vence se as duas médias empatarem.
-        return average_accuracy, average_f1, -rate
+        return total_correct, average_f1, -rate
 
     return max(runs_by_rate, key=ranking)
