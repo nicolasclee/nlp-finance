@@ -614,3 +614,17 @@ Buscas incluíram BANKING77 com termos validation/split/BERT; selective classifi
 - **Fontes:** [NumPy `quantile`](https://numpy.org/doc/stable/reference/generated/numpy.quantile.html), parâmetro `method`; [scikit-learn `TunedThresholdClassifierCV`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TunedThresholdClassifierCV.html), descrição e parâmetros.
 - **Achado:** existem funções prontas para quantis e para ajustar limiares, mas a primeira tem convenções diferentes de interpolação e a segunda é voltada a otimizar uma métrica de classificação binária, com validação cruzada configurável. Nenhuma delas implementa diretamente o conjunto completo das regras O6 para cobertura e aceitação de empates.
 - **Limite:** isso não prova que bibliotecas não possam implementar a regra. Adaptar um quantil ou outra ferramenta é possível, desde que a posição selecionada, o arredondamento, a igualdade e os empates sejam conferidos. A implementação atual já usa `sorted` e `math.ceil` para o cálculo básico; nenhuma alteração foi realizada nesta consulta.
+
+## R57 — Arquivos necessários ao diagnóstico
+
+- **Consulta:** 2026-11-15, para estimar recursos antes de qualquer download dos checkpoints.
+- **Fontes:** [BERT `model.safetensors`](https://huggingface.co/google-bert/bert-base-uncased/blob/main/model.safetensors), [FinBERT `pytorch_model.bin`](https://huggingface.co/yiyanghkust/finbert-pretrain/blob/main/pytorch_model.bin) e [metadados BANKING77](https://huggingface.co/datasets/PolyAI/banking77/blob/main/dataset_infos.json).
+- **Achado:** os arquivos de pesos consultados indicam aproximadamente 440 MB para BERT e 442 MB para FinBERT; os CSVs oficiais somam aproximadamente 1,1 MB. Os dois arquivos de pesos juntos exigem cerca de 882 MB de rede e pelo menos isso em disco, fora tokenizers, bibliotecas, caches temporários e checkpoints treinados.
+- **Limites:** tamanhos da página e da revisão consultada podem mudar; variantes adicionais e instalação de PyTorch/CUDA podem elevar bastante o consumo. Foram consultados metadados, sem baixar pesos ou dataset nesta consulta. Downloads acima de 50 MB exigem aviso prévio.
+
+## R58 — Preparação do ambiente para o diagnóstico
+
+- **Consulta:** 2026-11-15, para orientar os comandos de preparação sem instalar ou baixar arquivos nesta sessão.
+- **Fontes:** [instalação do uv](https://docs.astral.sh/uv/getting-started/installation/), [integração uv/PyTorch](https://docs.astral.sh/uv/guides/integration/pytorch/), [instalação e verificação CUDA do PyTorch](https://docs.pytorch.org/get-started/locally/) e [commit de origem dos CSVs oficiais](https://github.com/PolyAI-LDN/task-specific-datasets/commit/9d081458ff52e53cf7e848f414e6e9344e4e6696).
+- **Achado:** uv pode instalar Python e sincronizar o ambiente; a variante de PyTorch depende do sistema e da GPU. A documentação alerta que a seleção automática de backend do PyTorch por `uv` está disponível na interface `uv pip`, não devendo ser presumida para `uv sync`. CUDA precisa ser verificada no ambiente real.
+- **Limite:** nesta sessão, `nvidia-smi` não conseguiu acessar o driver; Python 3.11, uv e as bibliotecas não foram encontrados. Isso não demonstra ausência de GPU ou driver no terminal do autor. Não houve download nem instalação; o tamanho exato da instalação depende das versões e do backend selecionado.
