@@ -161,10 +161,10 @@ O diagnóstico usa a GPU em treinamentos curtos para medir memória, velocidade 
 
 Transformers 4.57.1 e Accelerate 1.10.1 estão especificados para a integração com o Trainer; o ambiente e o lockfile ainda precisam ser resolvidos. Antes das execuções científicas, validar o carregamento dos modelos e uma execução curta do fluxo completo.
 
-1. Para cada uma das 12 configurações, criar um JSON com `model_name`, `revision`, `seed`, `learning_rate`, `precision`, `batch_size`, `max_length` e `device`. Os três campos de recursos devem coincidir com o diagnóstico. Usar as seeds 13, 37 e 73 e as taxas 0.00002 e 0.00005 para cada modelo. Cada tentativa precisa de uma pasta nova:
+1. As 12 configurações estão em `configuracoes/`, com seeds 13, 37 e 73 e taxas 0.00002 e 0.00005 para cada modelo. Os campos de recursos correspondem ao diagnóstico atual. Cada tentativa precisa de uma pasta nova; por exemplo:
 
    ```sh
-   CUBLAS_WORKSPACE_CONFIG=:4096:8 python -m nlp_finance train --preparation resultados/preparacao --diagnostic resultados/diagnostico/diagnostic.json --config configuracao.json --output resultados/tentativa
+   CUBLAS_WORKSPACE_CONFIG=:4096:8 python -m nlp_finance train --preparation resultados/preparacao --diagnostic resultados/diagnostico/diagnostic.json --config configuracoes/bert_2e-5_seed13.json --output resultados/bert_2e-5_seed13
    ```
 
 2. Congelar a seleção na validação, passando as 12 pastas em `--runs`; depois executar `evaluate` com o arquivo congelado. Finalmente, `report` gera tabelas, curvas e exemplos. Consulte `python -m nlp_finance --help` e o `--help` de cada comando para os argumentos.
