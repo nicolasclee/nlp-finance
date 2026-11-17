@@ -58,7 +58,7 @@ Os limiares são regras aplicadas **depois** do treinamento: não ajustam os pes
 
 ## Contratos dos comandos
 
-Os comandos são chamados com `python -m nlp_finance <comando>`. Detalhes de execução estão no [README.md](README.md). `Path` abaixo significa caminho de arquivo ou pasta.
+Os comandos são chamados com `python -m nlp_finance <comando>`. Detalhes de execução estão no [README.md](../README.md). `Path` abaixo significa caminho de arquivo ou pasta.
 
 | Comando | Entradas | Saídas | Condição para prosseguir |
 |---|---|---|---|

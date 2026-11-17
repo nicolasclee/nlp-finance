@@ -223,3 +223,9 @@ proposta.md
 spec.md
 .vibe-wise
 AGENTS.md
+
+# Artefatos locais volumosos ou auxiliares das execuções.
+/resultados/*/trainer_checkpoints/
+/resultados/*/*.pt
+/resultados/*/loading_info.json
+/resultados/*/optimizer_groups.json

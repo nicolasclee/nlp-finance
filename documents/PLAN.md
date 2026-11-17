@@ -544,6 +544,11 @@ Este apêndice atende à delegação dos detalhes técnicos e ao pedido de concl
 - **Limites:** 20, 100, 1% e três são convenções práticas escolhidas para triagem, não limiares validados pela literatura nem garantia de convergência. As fontes e a justificativa estão em RESEARCH.md, R46. O diagnóstico precisa avaliar os dois modelos; passar nesse critério não prova economia de recursos ou desempenho equivalente em todas as seeds e taxas. A escolha final da precisão permanece condicionada ao diagnóstico e aos demais critérios operacionais aprovados.
 - **Relação com O3:** esta decisão substitui a pendência do limite quantitativo e aplica o limite de três saltos após a fase inicial, que é registrada separadamente. O restante de O1–O9 continua pendente de confirmação conjunta.
 
+### D45 — Escala inicial do AMP após investigação
+
+- Após a interrupção registrada em R62 e a investigação em R63–R64, o autor autorizou investigar e ajustar a escala preservando os checkpoints originais. Usar escala inicial 16.384 para os dois modelos, tanto no diagnóstico quanto no treinamento, mantendo o critério D44.
+- A escala pode alterar as atualizações do fine-tuning; não modifica os pesos pré-treinados armazenados. A mudança é uma escolha operacional baseada nas medições locais, sem garantia de estabilidade em todas as configurações.
+
 ## Resultado da revisão final do embasamento
 
 A segunda iteração de D5 foi feita sobre o registro já revisado, sem nova busca externa nesta consolidação. RESEARCH.md, R45, mapeia D1–D43 às fontes e distingue justificativas acadêmicas de escolhas práticas. Não foi encontrada contradição que exija reabrir as escolhas científicas confirmadas. A revisão não certifica o código, não resolve empiricamente hardware/compatibilidade e não transforma evidência parcial em leitura integral dos artigos.

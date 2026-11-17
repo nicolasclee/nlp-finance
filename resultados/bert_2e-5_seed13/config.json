@@ -1,0 +1,12 @@
+{
+  "model_name": "google-bert/bert-base-uncased",
+  "revision": "86b5e0934494bd15c9632b12f734a8a67f723594",
+  "seed": 13,
+  "learning_rate": 2e-05,
+  "precision": "amp_fp16",
+  "batch_size": 32,
+  "max_length": 128,
+  "device": "cuda",
+  "preparation_hash": "25153496430d8c99ef221eeb562aedc2b116c4c1a14e9fb2623294f5a69bf30a",
+  "diagnostic_hash": "9c01fdbfe18a2376afa123e91953add615992e3f2cbf9b2c83f526ce0f0a377d"
+}

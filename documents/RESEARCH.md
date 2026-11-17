@@ -649,3 +649,66 @@ Buscas incluíram BANKING77 com termos validation/split/BERT; selective classifi
 - **Procedimento:** BERT, AMP FP16, seed 13, taxa 2e-5, batch 32; cinco épocas com 32 exemplos de treino e 32 de validação. Artefatos temporários; teste final não utilizado.
 - **Resultado:** cinco avaliações, seleção e salvamento concluídos; os logits coincidiram após recarregar os pesos (`rtol=1e-5`, `atol=1e-6`). Houve uma atualização pulada na fase inicial, das cinco tentativas.
 - **Limites:** essa amostra não mede a estabilidade do AMP após a fase inicial nem o desempenho científico; não exercita o comando completo de treinamento nem verifica o FinBERT.
+
+## R62 — Primeira tentativa pelo comando completo
+
+- **Procedimento:** `train` com BERT, taxa 2e-5, seed 13 e configuração do diagnóstico; tentativa preservada em `resultados/bert_2e-5_seed13/`.
+- **Resultado:** interrompida na tentativa de atualização 166, antes da primeira validação. Após as 20 iniciais, houve saltos nas tentativas 97 e 166, ambos na mesma janela de 100; D44 exige interromper e investigar. Nenhum checkpoint ou resultado científico completo foi produzido.
+- **Verificação:** no Transformers instalado, o callback consulta o estado após `optimizer.step()`; os eventos registraram redução da escala do AMP. Isso é compatível com atualizações puladas, sem estabelecer a causa numérica exata.
+- **Consequência:** o diagnóstico curto não garantiu estabilidade na execução completa. Não houve troca automática de precisão nem reinício; preservar a tentativa e revisar o caminho antes das demais execuções.
+
+## R63 — Investigação controlada da escala do AMP
+
+- **Procedimento:** repetição da configuração de R62 com limite técnico de 220 atualizações e comparação alterando apenas a escala inicial do GradScaler. Script, registros e resumo consolidados em `resultados/investigacao_amp/registro.json`; não contam como treinos científicos.
+- **Achados:** com escala 65.536, a interrupção foi reproduzida nas mesmas atualizações 97 e 166. Com escala 16.384, não houve saltos em 220 atualizações. O registro de falha por ausência de cinco avaliações na segunda tentativa decorre da interrupção intencional antes da primeira época completa.
+- **Interpretação:** a escala inicial influenciou o comportamento observado. O diagnóstico usa 120 atualizações e repete lotes de uma amostra de 512 exemplos; a execução científica percorre outros lotes, portanto passar no diagnóstico não garante estabilidade posterior.
+- **Limites e pendência:** a comparação não estabelece estabilidade por cinco épocas ou nas demais seeds, taxas e no FinBERT. Alterar a escala implica revisar o protocolo e repetir a triagem de ambos os modelos antes de aceitar uma configuração comum; não foi feita alteração no treinamento.
+
+## R64 — Escala menor no FinBERT
+
+- **Procedimento:** FinBERT, seed 13, taxa 2e-5 e escala inicial 16.384, em investigação limitada intencionalmente a 220 atualizações; registros em `resultados/investigacao_amp/registro.json`.
+- **Resultado:** nenhuma atualização pulada. A interrupção após 220 tentativas explica o registro de ausência de cinco avaliações; não é uma execução científica concluída.
+- **Limite:** junto com R63, o resultado sustenta apenas a viabilidade inicial da escala para os dois modelos nessa seed e taxa. Não garante estabilidade durante as cinco épocas nem em outras configurações. Os checkpoints originais permanecem intactos; alterar a escala pode influenciar o resultado do fine-tuning.
+
+## R65 — Investigação de cinco épocas e novo diagnóstico
+
+- **Execução de investigação:** BERT, seed 13, taxa 2e-5 e escala 16.384; cinco épocas e 1.410 atualizações efetivas, sem saltos. O comando completo salvou e recarregou o checkpoint e conferiu as previsões. Por usar uma adaptação temporária do processo, não conta como repetição científica. Os registros foram preservados em `resultados/investigacao_amp/registro.json`; checkpoints e previsões temporários foram removidos após a verificação.
+- **Novo diagnóstico:** `resultados/diagnostico_escala_16384/diagnostic.json`; status `ready`, batch 32, limite 128, AMP FP16 e escala inicial 16.384. Não houve saltos nas 120 tentativas medidas em cada modelo. Estimativa para 12 execuções de cinco épocas: cerca de 60 minutos, sujeita às limitações do relatório.
+- **Limite:** as medições não garantem estabilidade em todas as seeds e taxas. Monitorar D44 em cada execução e preservar tentativas interrompidas.
+
+## R66 — Primeira execução com a escala ajustada no código
+
+- **Procedimento:** comando `train` normal, BERT, seed 13, taxa 2e-5, diagnóstico com escala 16.384; resultados em `resultados/bert_2e-5_seed13_tentativa_2/`.
+- **Resultado:** status `completed`, cinco épocas, 1.410 atualizações efetivas e nenhum salto. O fluxo conferiu a recarga do checkpoint e gravou as previsões da validação; o `config.json` registra a escala inicial.
+- **Limite:** uma configuração não garante estabilidade para as outras 11; continuar aplicando o monitor D44. A tentativa anterior foi preservada separadamente.
+
+## R67 — Repetições e variação no fine-tuning
+
+- **Fonte:** [Dodge et al., Fine-Tuning Pretrained Language Models](https://arxiv.org/abs/2002.06305): experimentos com BERT mostram variação causada tanto pela inicialização quanto pela ordem dos dados.
+- **Fonte:** [NLP Reproducibility Checklist](https://jessedodge.github.io/NLP_Reproducibility_Checklist_V1.2.pdf): recomenda informar número de execuções, método de escolha de hiperparâmetros e desempenho correspondente na validação.
+- **Limite:** esses trabalhos sustentam repetir e relatar variação, mas não estabelecem três seeds como quantidade suficiente ou universal; três repetições no mesmo split fornecem uma visão limitada da variabilidade.
+
+## R68 — Verificação antes do teste e avaliação final
+
+- **Antes do teste:** conferidos hashes dos seis checkpoints selecionados e previsões de validação, reproduzidos os limiares, verificados os registros de AMP das 12 execuções e exemplos manuais de limiar com empates, AURC e ECE. As sete sobreposições após normalização de espaços continuam sendo uma limitação registrada em R59.
+- **Teste:** `resultados/avaliacao_final/` contém previsões e métricas das seis versões, baseline e resumo vinculado ao protocolo congelado. O procedimento conferiu limites de entrada e reproduziu as previsões de validação antes de avaliar o teste.
+- **Limite:** resultados das três seeds descrevem variação de treinamento nesta divisão fixa; não demonstram significância estatística. As regras de abstenção e métricas complementares ainda precisam ser consolidadas no relatório.
+
+## R69 — Consolidação das métricas e sobreposições
+
+- **Relatório:** `resultados/relatorio/` reúne tabelas, médias e desvios, curvas e exemplos. Recalcular as métricas a partir das previsões das seis execuções reproduziu exatamente os arquivos de avaliação.
+- **Sobreposição:** os sete pares treino/teste identificados em R59 produzem sequências idênticas de IDs de tokens em ambos os tokenizers dos modelos selecionados. O efeito dessa sobreposição no desempenho não foi medido; não foram alterados dados nem seleção.
+- **Limite:** coberturas efetivas dos limiares diferem no teste; comparações descritivas em cobertura comum usam as curvas, sem recalibrar limiares. ECE depende do particionamento em faixas e três seeds não fornecem significância por si só.
+
+## R70 — Comparação dos resultados com a literatura BANKING77
+
+- **[Casanueva et al. (2020), artigo do BANKING77](https://aclanthology.org/2020.nlp4convai-1.5/):** BERT-TUNED obteve 93,66% de acurácia com dados de treino completos e cinco épocas. O modelo é BERT-Large cased, enquanto nosso BERT é base uncased e reservamos 1.001 exemplos de treino para validação. O número contextualiza a escala, não é comparação controlada nem estabelece estado da arte atual.
+- **[Huang et al. (2024)](https://aclanthology.org/2024.findings-emnlp.657/):** reportam 92,61% de acurácia média no teste do BANKING77 para BERT-base sem o método proposto, sobre cinco seeds; usam batch 24, taxa inicial 2e-5 e parada antecipada. Nossa média arredondada é também 92,61%, sobre três seeds e outro protocolo. A coincidência numérica não significa replicação; o checkpoint exato e a identidade dos arquivos do split não foram confirmados nesta consulta.
+- **[Gong et al. (2022)](https://doi.org/10.1609/aaai.v36i10.21314):** estudam calibração em detecção de intenção e relatam BANKING77 com 9.002 exemplos de treino e 3.080 de teste. A ECE apresentada é definida por classe e suas condições de treino diferem das nossas; seus valores não devem ser comparados diretamente à nossa ECE top-label de 15 faixas. Quantidades iguais não confirmam a identidade exata dos splits.
+- **Limites gerais:** os artigos encontrados sustentam que acurácia em torno de 92–94% é plausível nesse benchmark, não que nossos resultados estejam validados ou sejam estado da arte. Não foi encontrada nesta busca uma comparação diretamente equivalente para `yiyanghkust/finbert-pretrain` no BANKING77 nem referência diretamente comparável para nossa AURC/abstenção. Os sete exemplos de teste com entradas tokenizadas iguais às do treino permanecem limitação documentada em R69.
+
+## R71 — Conferência bibliográfica para o primeiro esboço do artigo
+
+- **Consulta:** 2026-11-24, ao preparar o primeiro esboço solicitado pelo autor. Conferidos metadados e resumos nas páginas oficiais de [Casanueva et al. (2020)](https://aclanthology.org/2020.nlp4convai-1.5/), [Peng et al. (2021)](https://aclanthology.org/2021.econlp-1.5/), [Xin et al. (2021)](https://aclanthology.org/2021.acl-long.84/), [Cattelan e Silva (2024)](https://proceedings.mlr.press/v244/cattelan24a.html), [Guo et al. (2017)](https://proceedings.mlr.press/v70/guo17a.html), [Botzer et al. (2023)](https://aclanthology.org/2023.findings-emnlp.429/) e [Huang et al. (2024)](https://aclanthology.org/2024.findings-emnlp.657/).
+- **Achados:** as páginas confirmam títulos e autoria para referências; o artigo de Huang é *Logits Reranking via Semantic Labels for Hard Samples in Text Classification*. O [PDF de Huang et al.](https://aclanthology.org/2024.findings-emnlp.657.pdf), §4, confirma cinco seeds, batch 24, taxa inicial 2e-5 e parada antecipada. O estudo de Cattelan e Silva usa classificadores ImageNet, e Peng et al. tratam outras tarefas financeiras.
+- **Limites:** a conferência de metadados e resumos não substitui leitura integral. A proximidade numérica com Huang et al. não é replicação ou comparação controlada. Identidade exata dos splits e checkpoint usado por eles permanecem não confirmados. O texto do artigo deve manter essas ressalvas.

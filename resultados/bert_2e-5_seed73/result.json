@@ -1,0 +1,17 @@
+{
+  "status": "completed",
+  "best_epoch": 5,
+  "planned_updates": 1410,
+  "warmup_updates": 141,
+  "updates": {
+    "attempts": 1410,
+    "effective_updates": 1409,
+    "skipped": 1,
+    "initial_skips": 0,
+    "measured_skips": 1,
+    "measured_skip_fraction": 0.0007194244604316547,
+    "last_window_attempts": 100,
+    "last_window_skips": 0
+  },
+  "final_learning_rate": 1.576044129235619e-08
+}

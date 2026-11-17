@@ -1,0 +1,1220 @@
+[
+  {
+    "pair": [
+      6,
+      49
+    ],
+    "id": "official_test:1867",
+    "text": "Someone transferred money to me and it doesn't show",
+    "label_id": 49,
+    "decisions": {
+      "google-bert/bert-base-uncased": [
+        {
+          "seed": 13,
+          "prediction": 6,
+          "msp": {
+            "score": 0.8086610224944709,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.7164322148559656,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 6,
+          "msp": {
+            "score": 0.7821397820408588,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.6152980258524496,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 66,
+          "msp": {
+            "score": 0.7599023971094097,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.5966932422182598,
+            "accepted": false
+          }
+        }
+      ],
+      "yiyanghkust/finbert-pretrain": [
+        {
+          "seed": 13,
+          "prediction": 66,
+          "msp": {
+            "score": 0.3727179376356167,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.08947489082355992,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 66,
+          "msp": {
+            "score": 0.44210291938581037,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.02227857750561446,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 66,
+          "msp": {
+            "score": 0.7505045856622093,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.6197227589054559,
+            "accepted": false
+          }
+        }
+      ]
+    }
+  },
+  {
+    "pair": [
+      6,
+      49
+    ],
+    "id": "official_test:1874",
+    "text": "Why is a money transfer not showing?",
+    "label_id": 49,
+    "decisions": {
+      "google-bert/bert-base-uncased": [
+        {
+          "seed": 13,
+          "prediction": 49,
+          "msp": {
+            "score": 0.7035567749121772,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.5538833428603109,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 6,
+          "msp": {
+            "score": 0.84756826030015,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.7947461314775937,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 49,
+          "msp": {
+            "score": 0.590385411808082,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.28691460618345227,
+            "accepted": false
+          }
+        }
+      ],
+      "yiyanghkust/finbert-pretrain": [
+        {
+          "seed": 13,
+          "prediction": 6,
+          "msp": {
+            "score": 0.9006523413300342,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.8413038266528451,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 6,
+          "msp": {
+            "score": 0.9646977034108606,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9513624297357006,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 6,
+          "msp": {
+            "score": 0.9180046059021556,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.8780313665989875,
+            "accepted": true
+          }
+        }
+      ]
+    }
+  },
+  {
+    "pair": [
+      6,
+      67
+    ],
+    "id": "official_test:2048",
+    "text": "how long dies it take for transfers to reflect on my balance",
+    "label_id": 67,
+    "decisions": {
+      "google-bert/bert-base-uncased": [
+        {
+          "seed": 13,
+          "prediction": 6,
+          "msp": {
+            "score": 0.7362654070826309,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.609372101030009,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 6,
+          "msp": {
+            "score": 0.883690031135676,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.8176961553278494,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 6,
+          "msp": {
+            "score": 0.8726165100279506,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.7857128004080153,
+            "accepted": true
+          }
+        }
+      ],
+      "yiyanghkust/finbert-pretrain": [
+        {
+          "seed": 13,
+          "prediction": 6,
+          "msp": {
+            "score": 0.9647645082663077,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9522515108148014,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 6,
+          "msp": {
+            "score": 0.8880130189784856,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.8240565088685985,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 6,
+          "msp": {
+            "score": 0.9636748416031798,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.952747584511119,
+            "accepted": true
+          }
+        }
+      ]
+    }
+  },
+  {
+    "pair": [
+      6,
+      67
+    ],
+    "id": "official_test:2685",
+    "text": "How long does it take for an international transfer into my account?",
+    "label_id": 6,
+    "decisions": {
+      "google-bert/bert-base-uncased": [
+        {
+          "seed": 13,
+          "prediction": 67,
+          "msp": {
+            "score": 0.8746257850310162,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.831082662275235,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 67,
+          "msp": {
+            "score": 0.9373641942484214,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9126518236753581,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 67,
+          "msp": {
+            "score": 0.9147842297323949,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.8719636477988665,
+            "accepted": true
+          }
+        }
+      ],
+      "yiyanghkust/finbert-pretrain": [
+        {
+          "seed": 13,
+          "prediction": 67,
+          "msp": {
+            "score": 0.6586588415601756,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.372464802760684,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 67,
+          "msp": {
+            "score": 0.9555655294380196,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.931019978466329,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 67,
+          "msp": {
+            "score": 0.9557119064242242,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9383657929313646,
+            "accepted": true
+          }
+        }
+      ]
+    }
+  },
+  {
+    "pair": [
+      12,
+      13
+    ],
+    "id": "official_test:11",
+    "text": "How long does a card delivery take?",
+    "label_id": 12,
+    "decisions": {
+      "google-bert/bert-base-uncased": [
+        {
+          "seed": 13,
+          "prediction": 13,
+          "msp": {
+            "score": 0.8594441495720958,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.8044633551363135,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 13,
+          "msp": {
+            "score": 0.8542357001906059,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.7526702980080452,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 13,
+          "msp": {
+            "score": 0.9234645636188473,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.8957167880400447,
+            "accepted": true
+          }
+        }
+      ],
+      "yiyanghkust/finbert-pretrain": [
+        {
+          "seed": 13,
+          "prediction": 12,
+          "msp": {
+            "score": 0.8735804275241066,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.7871693388721437,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 13,
+          "msp": {
+            "score": 0.9763810824689523,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9682876377147603,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 13,
+          "msp": {
+            "score": 0.8796954011197479,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.7931651215074386,
+            "accepted": true
+          }
+        }
+      ]
+    }
+  },
+  {
+    "pair": [
+      12,
+      13
+    ],
+    "id": "official_test:281",
+    "text": "my card was not in the mail again can you advise?",
+    "label_id": 13,
+    "decisions": {
+      "google-bert/bert-base-uncased": [
+        {
+          "seed": 13,
+          "prediction": 12,
+          "msp": {
+            "score": 0.5174426994250104,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.42630603884105533,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 12,
+          "msp": {
+            "score": 0.5252320278962792,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.34410317711671556,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 12,
+          "msp": {
+            "score": 0.9292270122434712,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9132959267626998,
+            "accepted": true
+          }
+        }
+      ],
+      "yiyanghkust/finbert-pretrain": [
+        {
+          "seed": 13,
+          "prediction": 42,
+          "msp": {
+            "score": 0.4846446817344004,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.2970859792268501,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 12,
+          "msp": {
+            "score": 0.5807761676346617,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.39473602144750985,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 12,
+          "msp": {
+            "score": 0.223176424681416,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.09023753869298723,
+            "accepted": false
+          }
+        }
+      ]
+    }
+  },
+  {
+    "pair": [
+      34,
+      37
+    ],
+    "id": "official_test:264",
+    "text": "Am I able to exchange currencies?",
+    "label_id": 37,
+    "decisions": {
+      "google-bert/bert-base-uncased": [
+        {
+          "seed": 13,
+          "prediction": 34,
+          "msp": {
+            "score": 0.8896242212371767,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.8479099794720093,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 34,
+          "msp": {
+            "score": 0.9638340846723957,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9609374911684011,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 34,
+          "msp": {
+            "score": 0.9666507992717966,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9609769105009003,
+            "accepted": true
+          }
+        }
+      ],
+      "yiyanghkust/finbert-pretrain": [
+        {
+          "seed": 13,
+          "prediction": 34,
+          "msp": {
+            "score": 0.9367285567817559,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9159736596363863,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 34,
+          "msp": {
+            "score": 0.9869944419574981,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9841388569998943,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 34,
+          "msp": {
+            "score": 0.9732310563590366,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9685833284783696,
+            "accepted": true
+          }
+        }
+      ]
+    }
+  },
+  {
+    "pair": [
+      34,
+      37
+    ],
+    "id": "official_test:271",
+    "text": "Can I exchange currencies?",
+    "label_id": 37,
+    "decisions": {
+      "google-bert/bert-base-uncased": [
+        {
+          "seed": 13,
+          "prediction": 34,
+          "msp": {
+            "score": 0.8426623595172033,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.7633923957577107,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 34,
+          "msp": {
+            "score": 0.9583962620310964,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9469600724973795,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 34,
+          "msp": {
+            "score": 0.958394169518905,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9491751967285922,
+            "accepted": true
+          }
+        }
+      ],
+      "yiyanghkust/finbert-pretrain": [
+        {
+          "seed": 13,
+          "prediction": 34,
+          "msp": {
+            "score": 0.8025220310137223,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.6645128914482611,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 34,
+          "msp": {
+            "score": 0.9808513527246322,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9726662226401981,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 34,
+          "msp": {
+            "score": 0.9445142408092221,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9208923650624993,
+            "accepted": true
+          }
+        }
+      ]
+    }
+  },
+  {
+    "pair": [
+      38,
+      41
+    ],
+    "id": "official_test:2606",
+    "text": "I would like a temporary virtual card",
+    "label_id": 38,
+    "decisions": {
+      "google-bert/bert-base-uncased": [
+        {
+          "seed": 13,
+          "prediction": 41,
+          "msp": {
+            "score": 0.835224672708923,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.7783411532411197,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 41,
+          "msp": {
+            "score": 0.8228328917468599,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.7420763255173405,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 41,
+          "msp": {
+            "score": 0.9140323753577816,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.8901236584353369,
+            "accepted": true
+          }
+        }
+      ],
+      "yiyanghkust/finbert-pretrain": [
+        {
+          "seed": 13,
+          "prediction": 41,
+          "msp": {
+            "score": 0.7049883604946897,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.6061293504844448,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 41,
+          "msp": {
+            "score": 0.6256761669250457,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.4120696882475558,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 41,
+          "msp": {
+            "score": 0.8660776043971773,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.8219025322528069,
+            "accepted": true
+          }
+        }
+      ]
+    }
+  },
+  {
+    "pair": [
+      38,
+      41
+    ],
+    "id": "official_test:2617",
+    "text": "how do i get a virtual card for one time use",
+    "label_id": 38,
+    "decisions": {
+      "google-bert/bert-base-uncased": [
+        {
+          "seed": 13,
+          "prediction": 41,
+          "msp": {
+            "score": 0.6716785369349833,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.5595262000537298,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 41,
+          "msp": {
+            "score": 0.4698790208843377,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.169470335960823,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 41,
+          "msp": {
+            "score": 0.7938727756255044,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.6744768147395327,
+            "accepted": false
+          }
+        }
+      ],
+      "yiyanghkust/finbert-pretrain": [
+        {
+          "seed": 13,
+          "prediction": 41,
+          "msp": {
+            "score": 0.5185942304182634,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.2376506747206184,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 38,
+          "msp": {
+            "score": 0.6500639772951552,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.40616964375820186,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 38,
+          "msp": {
+            "score": 0.4223806878539592,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.016841679907856844,
+            "accepted": false
+          }
+        }
+      ]
+    }
+  },
+  {
+    "pair": [
+      49,
+      66
+    ],
+    "id": "official_test:1864",
+    "text": "When will the transfer be completed?",
+    "label_id": 49,
+    "decisions": {
+      "google-bert/bert-base-uncased": [
+        {
+          "seed": 13,
+          "prediction": 66,
+          "msp": {
+            "score": 0.3732077547419798,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.16210935368229548,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 66,
+          "msp": {
+            "score": 0.8132473052255325,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.7012176538740716,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 66,
+          "msp": {
+            "score": 0.8153894175911902,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.711744353561134,
+            "accepted": false
+          }
+        }
+      ],
+      "yiyanghkust/finbert-pretrain": [
+        {
+          "seed": 13,
+          "prediction": 49,
+          "msp": {
+            "score": 0.5475426558557256,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.16863771183168247,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 49,
+          "msp": {
+            "score": 0.8881310361573178,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.8322327414911032,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 49,
+          "msp": {
+            "score": 0.6978705670265515,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.5625021698809187,
+            "accepted": false
+          }
+        }
+      ]
+    }
+  },
+  {
+    "pair": [
+      49,
+      66
+    ],
+    "id": "official_test:1842",
+    "text": "Why is my transfer not done yet?",
+    "label_id": 49,
+    "decisions": {
+      "google-bert/bert-base-uncased": [
+        {
+          "seed": 13,
+          "prediction": 49,
+          "msp": {
+            "score": 0.49583405652647644,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.16307584368709044,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 66,
+          "msp": {
+            "score": 0.4667743234516631,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.03440788094587999,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 66,
+          "msp": {
+            "score": 0.5511475135829433,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.19300235891229234,
+            "accepted": false
+          }
+        }
+      ],
+      "yiyanghkust/finbert-pretrain": [
+        {
+          "seed": 13,
+          "prediction": 49,
+          "msp": {
+            "score": 0.6329023867521789,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.4080800145696864,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 49,
+          "msp": {
+            "score": 0.8664960826531362,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.7997523509394738,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 66,
+          "msp": {
+            "score": 0.5757908807961402,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.26567270495116063,
+            "accepted": false
+          }
+        }
+      ]
+    }
+  },
+  {
+    "pair": [
+      69,
+      74
+    ],
+    "id": "official_test:1165",
+    "text": "What is the need to verify my identity?",
+    "label_id": 74,
+    "decisions": {
+      "google-bert/bert-base-uncased": [
+        {
+          "seed": 13,
+          "prediction": 69,
+          "msp": {
+            "score": 0.791988002641591,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.6929461581330655,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 69,
+          "msp": {
+            "score": 0.8988910388627621,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.8510112529083989,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 69,
+          "msp": {
+            "score": 0.9240508697539358,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.888914447688238,
+            "accepted": true
+          }
+        }
+      ],
+      "yiyanghkust/finbert-pretrain": [
+        {
+          "seed": 13,
+          "prediction": 69,
+          "msp": {
+            "score": 0.9728105970910711,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9682414211404634,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 69,
+          "msp": {
+            "score": 0.9735326646876965,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9624496828137994,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 69,
+          "msp": {
+            "score": 0.9622273342331824,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.9440308328466017,
+            "accepted": true
+          }
+        }
+      ]
+    }
+  },
+  {
+    "pair": [
+      69,
+      74
+    ],
+    "id": "official_test:1166",
+    "text": "Do I have to do the identity check?",
+    "label_id": 74,
+    "decisions": {
+      "google-bert/bert-base-uncased": [
+        {
+          "seed": 13,
+          "prediction": 69,
+          "msp": {
+            "score": 0.7852255417792032,
+            "accepted": true
+          },
+          "margin": {
+            "score": 0.7096194456562077,
+            "accepted": true
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 69,
+          "msp": {
+            "score": 0.4790449011179988,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.013800757818031695,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 74,
+          "msp": {
+            "score": 0.6391691791642122,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.3361127500490171,
+            "accepted": false
+          }
+        }
+      ],
+      "yiyanghkust/finbert-pretrain": [
+        {
+          "seed": 13,
+          "prediction": 69,
+          "msp": {
+            "score": 0.7456099402078066,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.5320327083876082,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 37,
+          "prediction": 69,
+          "msp": {
+            "score": 0.7977522395713532,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.6221992893857479,
+            "accepted": false
+          }
+        },
+        {
+          "seed": 73,
+          "prediction": 74,
+          "msp": {
+            "score": 0.7030147801836178,
+            "accepted": false
+          },
+          "margin": {
+            "score": 0.44451659299636964,
+            "accepted": false
+          }
+        }
+      ]
+    }
+  }
+]

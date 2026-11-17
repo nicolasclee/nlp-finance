@@ -1,0 +1,13 @@
+{
+  "model_name": "yiyanghkust/finbert-pretrain",
+  "revision": "88ab954a39ea6d3ce2b62cff086dd5ad1172c664",
+  "seed": 13,
+  "learning_rate": 5e-05,
+  "precision": "amp_fp16",
+  "batch_size": 32,
+  "max_length": 128,
+  "device": "cuda",
+  "amp_initial_scale": 16384.0,
+  "preparation_hash": "25153496430d8c99ef221eeb562aedc2b116c4c1a14e9fb2623294f5a69bf30a",
+  "diagnostic_hash": "b4173d26558a7adadd76bd294b139f4129c4533cafbacc473632d7202b7da73b"
+}

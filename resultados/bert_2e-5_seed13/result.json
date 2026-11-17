@@ -1,0 +1,15 @@
+{
+  "status": "failed",
+  "error_type": "RuntimeError",
+  "error": "AMP pulou mais de uma atualização em uma janela de 100",
+  "updates": {
+    "attempts": 166,
+    "effective_updates": 164,
+    "skipped": 2,
+    "initial_skips": 0,
+    "measured_skips": 2,
+    "measured_skip_fraction": 0.0136986301369863,
+    "last_window_attempts": 100,
+    "last_window_skips": 2
+  }
+}

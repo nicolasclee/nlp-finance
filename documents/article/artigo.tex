@@ -1,0 +1,267 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{lmodern}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{url}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\setlength{\emergencystretch}{3em}
+\begin{document}
+
+\begin{center}
+{\Large\bfseries \textbf{Classificação de Intenções Bancárias com BERT e FinBERT: Uma Análise de Abstenção e Calibração}\par}
+\end{center}
+
+\textbf{Nicolas Chin Lee, João Vítor Munhoz Jacobsen}
+
+Instituto de Informática – Universidade Federal do Rio Grande do Sul (UFRGS)\\
+
+\textbf{Abstract.} Intent classification routes customer messages to automated service workflows, yet misclassifications can direct user requests to inappropriate flows. This study compares BERT and FinBERT on the 77 banking intents of the BANKING77 dataset, while investigating selective classification (abstention) for low-confidence predictions. Both models were fine-tuned under a shared protocol using three random seeds per selected hyperparameter configuration. Two post-hoc acceptance rules were evaluated: maximum softmax probability (MSP) and the margin between the top two predicted probabilities. Acceptance thresholds were selected on the validation set to meet 80\%, 90\%, and 95\% coverage targets and applied to the test set without readjustment. BERT and FinBERT achieved average test accuracies of 92.61\% and 92.40\%, respectively. Under MSP at the 90\% validation coverage target, selective error rates among accepted predictions dropped to 3.49\% and 3.01\%, with effective test coverages near 90\%. FinBERT exhibited lower expected calibration error (ECE) and lower area under the risk–coverage curve (AURC). All findings are descriptive and do not establish statistical significance or causal attribution to domain pre-training.
+
+\textbf{Keywords:} intent classification; BANKING77; BERT; FinBERT; selective classification; calibration.
+
+\textbf{Resumo.} A classificação de intenções permite encaminhar mensagens de clientes a fluxos automatizados de atendimento, mas previsões incorretas podem direcionar solicitações ao fluxo inadequado. Este trabalho compara os modelos BERT e FinBERT na identificação das 77 intenções bancárias do conjunto BANKING77, investigando também o efeito da abstenção em previsões de menor confiança. Ambos os modelos foram ajustados sob um protocolo experimental comum, com três sementes por configuração selecionada. Duas regras de aceitação pós-treinamento foram avaliadas: a maior probabilidade softmax (MSP) e a margem entre as duas maiores probabilidades previstas. Os limiares foram selecionados na validação para metas de cobertura de 80\%, 90\% e 95\% e aplicados sem reajuste ao conjunto de teste. BERT e FinBERT alcançaram, respectivamente, acurácias médias de 92,61\% e 92,40\%. Sob a regra MSP na meta de 90\%, os erros seletivos entre previsões aceitas reduziram-se para 3,49\% e 3,01\%, mantendo coberturas efetivas próximas de 90\%. O FinBERT apresentou menor erro de calibração esperado (ECE) e menor área sob a curva risco–cobertura (AURC). Os resultados são descritivos e não estabelecem significância estatística ou causalidade.
+
+\textbf{Palavras-chave:} classificação de intenções; BANKING77; BERT; FinBERT; classificação seletiva; calibração.
+
+\section*{\textbf{1. Introdução}}
+
+Sistemas automatizados de atendimento ao cliente precisam interpretar solicitações formuladas em linguagem natural de maneiras variadas para encaminhá-las aos serviços adequados. No domínio bancário, nuances semânticas sutis separam categorias distintas: uma pergunta sobre a verificação de identidade pode ser linguisticamente próxima de duas intenções distintas, como verificar a identidade e entender por que essa verificação é necessária. A classificação de intenções busca associar cada mensagem de entrada a uma categoria previamente definida. Mesmo quando restrita a um único domínio de aplicação, a alta granularidade e a proximidade semântica entre classes tornam a tarefa desafiadora [Casanueva et al. 2020].
+
+Modelos baseados na arquitetura Transformer fornecem representações contextuais densas que podem ser adaptadas por meio de fine-tuning a tarefas supervisionadas de classificação [Devlin et al. 2019]. Uma alternativa ao emprego de modelos pré-treinados em corpora genéricos consiste em utilizar modelos especializados em um domínio específico. No setor financeiro, variantes do FinBERT foram propostas para incorporar vocabulário e estruturas discursivas de textos financeiros durante o pré-treinamento [Yang et al. 2020]. Contudo, o desempenho relativo entre modelos gerais e especializados depende das características da tarefa-alvo, do checkpoint selecionado e das condições de treinamento [Peng et al. 2021].
+
+Além de atribuir uma intenção a cada entrada, um sistema de apoio à decisão pode optar por não aceitar uma previsão quando o sinal de confiança associado é baixo. Essa estratégia, denominada abstenção ou classificação seletiva, estabelece um compromisso explícito entre cobertura (a fração de mensagens aceitas para encaminhamento automático) e risco seletivo (a proporção de erros entre as previsões aceitas) [Xin et al. 2021]. Em uma aplicação bancária, os casos rejeitados pela regra de abstenção poderiam ser encaminhados para uma etapa alternativa, como a revisão humana. Neste trabalho, avalia-se apenas a relação entre cobertura e erro seletivo, sem implementar esse encaminhamento ou estimar seus custos operacionais.
+
+Este estudo compara BERT e FinBERT na classificação das 77 intenções do BANKING77 e avalia como a abstenção afeta a relação entre cobertura e erro seletivo. Para decidir quais previsões aceitar, investigamos dois critérios de confiança: a maior probabilidade softmax e a margem entre as duas maiores probabilidades previstas.
+
+O estudo compara os checkpoints sob um protocolo comum de fine-tuning e aplica duas regras de abstenção após o treinamento, sem alterar os pesos. A análise reúne os resultados de classificação, calibração e erros recorrentes. Também apresentamos uma auditoria dos dados e as limitações da comparação, entre elas as diferenças entre checkpoints e as sobreposições tokenizadas entre treino e teste.
+
+\section*{\textbf{2. Referencial Teórico}}
+
+\subsection*{\textbf{2.1. Classificação de Intenções e Modelos Transformer}}
+
+Na classificação de intenções, uma mensagem textual é mapeada para um rótulo pertencente a um conjunto finito e conhecido de categorias. No BANKING77, cada mensagem em inglês recebe um único rótulo entre 77 intenções bancárias, caracterizando uma tarefa de classificação multiclasse [Casanueva et al. 2020].
+
+O modelo BERT (Bidirectional Encoder Representations from Transformers) emprega uma arquitetura codificadora bidirecional pré-treinada em grandes volumes de texto para gerar representações contextuais [Devlin et al. 2019]. Para a classificação, adiciona-se ao BERT uma camada linear que produz um escore para cada uma das 77 intenções. Durante o fine-tuning, os parâmetros do modelo e dessa camada são ajustados conjuntamente. Na inferência, a função softmax transforma os escores em probabilidades usadas para classificar a mensagem e calcular os critérios de confiança.
+
+Neste estudo, o checkpoint google-bert/bert-base-uncased representa o modelo de domínio geral, enquanto yiyanghkust/finbert-pretrain representa um modelo pré-treinado em comunicações financeiras [Yang et al. 2020]. Ambos são submetidos ao mesmo procedimento de ajuste supervisionado no BANKING77. Como os dois checkpoints diferem tanto nos corpora de pré-treinamento quanto em seus vocabulários e tokenizadores, eventuais diferenças observadas nos resultados refletem o conjunto dessas propriedades e não podem ser atribuídas exclusivamente ao domínio financeiro.
+
+\subsection*{\textbf{2.2. Abstenção e Estimativas de Confiança}}
+
+Na classificação convencional, o sistema sempre emite a classe correspondente à maior probabilidade estimada. Na classificação seletiva, introduz-se uma função de seleção que decide aceitar ou rejeitar a previsão com base em um escore de confiança s(x) derivado do modelo [Xin et al. 2021]. Quando s(x) é inferior a um limiar \ensuremath{\tau}, o sistema abstém-se de responder automaticamente. Define-se a cobertura como a proporção de exemplos do conjunto de avaliação para os quais s(x) \ensuremath{\geq} \ensuremath{\tau}, e o risco seletivo (ou erro aceito) como a proporção de classificações incorretas restrita ao subconjunto de exemplos aceitos.
+
+Este trabalho avalia dois critérios de confiança calculados a partir das probabilidades previstas pelo modelo, sem alterar seus pesos:
+
+\begin{itemize}
+\item Maior probabilidade softmax (Maximum Softmax Probability, MSP): utiliza a probabilidade atribuída à intenção mais provável. Se essa probabilidade for 60\%, a MSP será 0,60.
+\item Margem softmax: utiliza a diferença entre as probabilidades das duas intenções mais prováveis. Se forem 60\% e 30\%, a margem será 0,30.
+\end{itemize}
+
+
+Uma margem reduzida indica ambiguidade local entre as duas hipóteses principais consideradas pelo classificador, mesmo quando a probabilidade máxima isolada aparenta ser moderada. Cattelan e Silva [2024] analisam esses e outros estimadores pós-treinamento no contexto de classificação seletiva, destacando que o desempenho da seleção depende tanto da capacidade discriminativa do classificador base quanto da qualidade do ordenamento induzido pelo escore de confiança. Como os experimentos daqueles autores concentram-se em visão computacional, a avaliação em dados de intenções bancárias permanece necessária.
+
+\subsection*{\textbf{2.3. Métricas de Avaliação}}
+
+Para avaliar o desempenho global sem abstenção, empregam-se a acurácia e o Macro-F1. A acurácia mensura a fração total de previsões corretas no conjunto de teste. O Macro-F1 calcula a média aritmética não ponderada da medida F1 obtida individualmente para cada uma das 77 intenções, atribuindo peso idêntico a todas as classes e permitindo verificar se o desempenho se mantém equilibrado entre categorias.
+
+Na avaliação da classificação seletiva, cobertura e erro aceito devem ser analisados conjuntamente, pois uma redução no erro só é informativa quando acompanhada da fração de mensagens efetivamente atendidas. A AURC (Area Under the Risk-Coverage Curve) resume o erro seletivo em diferentes níveis de cobertura [Xin et al. 2021]. Valores menores indicam, em geral, menor erro entre as previsões aceitas. A métrica depende tanto da acurácia do classificador quanto da capacidade do critério de confiança de atribuir pontuações menores às previsões incorretas [Cattelan e Silva 2024].
+
+A calibração probabilística mede a correspondência entre a confiança prevista e a frequência observada de acertos. Em um modelo bem calibrado, previsões agrupadas em torno de 80\% de confiança devem apresentar taxa de acerto próxima de 80\%. A ECE (Expected Calibration Error) quantifica esse desvio dividindo o intervalo de confiança [0, 1] em faixas de largura uniforme e calculando a média ponderada das diferenças absolutas entre a confiança média e a acurácia observada em cada faixa [Guo et al. 2017]. Usamos a ECE como diagnóstico complementar, pois calibração agregada e capacidade de ordenamento seletivo são propriedades distintas.
+
+\section*{\textbf{3. Trabalhos Relacionados}}
+
+Casanueva et al. [2020] introduziram o conjunto de dados BANKING77 para avaliar métodos de detecção de intenções baseados em codificadores de sentenças em cenários com grande número de classes semanticamente próximas. Composto por 13.083 mensagens distribuídas em 77 intenções de um único domínio, o benchmark tornou-se referência para classificação granular de intenções. Embora os autores reportem resultados com BERT ajustado à tarefa, diferenças nos protocolos de treinamento e variantes de modelos impedem a comparação numérica direta sem controle experimental compartilhado.
+
+Peng et al. [2021] conduziram uma análise comparativa entre BERT e variantes de FinBERT em tarefas financeiras, abrangendo análise de sentimento, extração de relações causais e compreensão numérica. Os autores observaram que diferenças nos corpora de pré-treinamento e na segmentação lexical influenciam o desempenho conforme a tarefa. Como o estudo não contempla classificação granular de intenções de atendimento bancário, seus achados motivam a comparação controlada realizada neste trabalho, sem antecipar qual arquitetura prevalece no BANKING77.
+
+Xin et al. [2021] investigaram a classificação seletiva em processamento de linguagem natural, empregando curvas risco–cobertura e a métrica AURC para avaliar o compromisso entre abstenção e precisão em modelos baseados em Transformers. O presente estudo adota esse arcabouço de avaliação para comparar BERT e FinBERT sob duas regras pós-treinamento no BANKING77, diferenciando-se por focar exclusivamente em critérios aplicados após o ajuste padrão, sem introduzir termos adicionais de regularização durante o treinamento.
+
+Cattelan e Silva [2024] examinaram estimadores de confiança pós-treinamento para classificação seletiva, formalizando a comparação entre MSP e margem de probabilidades e ressaltando a interação entre a qualidade do classificador base e o sinal de seleção. Enquanto seus experimentos utilizam classificadores de imagens na base ImageNet, nossa investigação transpõe essa análise metodológica para o processamento de linguagem natural no domínio bancário.
+
+Guo et al. [2017] analisaram o fenômeno da descalibração em redes neurais profundas modernas e popularizaram a ECE como métrica sumária de alinhamento probabilístico. Empregamos a ECE para caracterizar o comportamento probabilístico dos modelos ajustados, sem aplicar etapas posteriores de recalibração como temperature scaling. Por fim, Huang et al. [2024] reportaram 92,61\% de acurácia média para BERT-base no BANKING77 em um protocolo com cinco sementes, lote de tamanho 24, taxa inicial de 2 \ensuremath{\times} 10\textsuperscript{-}\textsuperscript{5} e early stopping. Esse resultado oferece referência da ordem de grandeza esperada no benchmark, embora diferenças de protocolo e hiperparâmetros impeçam tratá-lo como replicação direta.
+
+\section*{\textbf{4. Metodologia}}
+
+\subsection*{\textbf{4.1. Conjunto de Dados, Divisão e Auditoria}}
+
+Os experimentos utilizaram o conjunto oficial BANKING77, composto por mensagens de clientes em inglês anotadas em 77 intenções bancárias [Casanueva et al. 2020]. A partição oficial de teste foi integralmente preservada, totalizando 3.080 mensagens perfeitamente balanceadas (40 exemplos por intenção). O conjunto oficial de treinamento, contendo 10.003 mensagens, foi subdividido de forma estratificada com semente fixa igual a 42 em 9.002 exemplos para treinamento e 1.001 exemplos para validação, proporção consistente com a adotada por Botzer et al. [2023]. Essa mesma divisão foi mantida fixa em todas as execuções.
+
+O conjunto de validação orientou a escolha da melhor época, a seleção da taxa de aprendizado e a definição dos limiares de abstenção, enquanto o conjunto de teste permaneceu isolado até o congelamento definitivo de todas as decisões. O uso do mesmo conjunto de validação em várias etapas de seleção pode adaptar as escolhas às particularidades dessa amostra. Por isso, a avaliação final utiliza um conjunto de teste isolado.
+
+\textbf{Tabela 1.} Divisão estratificada do conjunto de dados BANKING77.
+
+Uma auditoria automatizada da integridade dos dados e da sobreposição entre partições identificou que sete mensagens do conjunto de teste possuem correspondentes no conjunto de treino que, apesar de pequenas variações de espaçamento, produzem sequências idênticas de identificadores de tokens nos tokenizadores de ambos os modelos. Os textos e a divisão oficial do benchmark foram preservados para permitir a comparação com a literatura. O impacto dessas sete ocorrências nas métricas não foi isolado quantitativamente e deve ser considerado na interpretação dos resultados.
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X}
+\hline
+Conjunto & Mensagens & Proporção & Papel metodológico \\
+\hline
+Treino & 9.002 & 68,81\% & Ajuste supervisionado dos parâmetros dos modelos \\
+Validação & 1.001 & 7,65\% & Seleção de época, taxa de aprendizado e limiares \\
+Teste & 3.080 & 23,54\% & Avaliação final com hiperparâmetros e limiares congelados \\
+Total & 13.083 & 100,00\% & Cobertura completa das 77 intenções bancárias \\
+\hline
+\end{tabularx}
+\end{center}
+
+\subsection*{\textbf{4.2. Modelos e Protocolo de Treinamento}}
+
+Foram avaliados os checkpoints públicos \emph{google-bert/bert-base-uncased} e \emph{yiyanghkust/finbert-pretrain}, cada um pareado com seu respectivo tokenizador oficial. Em ambos os casos, realizou-se o fine-tuning completo da arquitetura para classificação multiclasse, conectando a representação de saída do pooler a uma camada linear de 77 saídas com taxa de dropout igual a 0,1. O treinamento minimizou a perda de entropia cruzada atualizando todos os parâmetros do codificador Transformer e da camada classificadora.
+
+Para cada modelo, exploraram-se duas taxas de aprendizado iniciais, 2 \ensuremath{\times} 10\textsuperscript{-}\textsuperscript{5} e 5 \ensuremath{\times} 10\textsuperscript{-}\textsuperscript{5}, repetidas ao longo de três sementes aleatórias distintas (13, 37 e 73), totalizando 12 execuções de treinamento. Cada execução foi conduzida por até cinco épocas completas, com avaliação na validação ao término de cada época. Empregou-se o otimizador AdamW, tamanho de lote (batch size) igual a 32, comprimento máximo de sequência de 128 tokens com padding dinâmico por lote e treinamento em precisão mista (FP16) em GPU NVIDIA RTX 3070 Ti Laptop de 8 GB. Todas as etapas de validação, cálculo de probabilidades e inferência final no teste foram executadas em precisão simples (FP32) para evitar imprecisões numéricas nos escores softmax.
+
+Em cada execução individual, selecionou-se o checkpoint da época com maior acurácia na validação. Em seguida, para cada modelo, escolheu-se a taxa de aprendizado que obteve a maior acurácia média na validação entre as três sementes. A taxa de 5 \ensuremath{\times} 10\textsuperscript{-}\textsuperscript{5} prevaleceu para ambos os modelos, e apenas as seis execuções correspondentes (três para BERT e três para FinBERT) foram submetidas à avaliação final no conjunto de teste. As três sementes capturam a variabilidade da inicialização da camada de classificação e da ordenação dos lotes, mas usam a mesma partição treino–validação.
+
+\subsection*{\textbf{4.3. Regras de Abstenção e Cálculo das Métricas}}
+
+Após a seleção dos checkpoints, os pesos salvos e as escolhas de treinamento, como a taxa de aprendizado e a época selecionada, foram mantidos fixos. Em seguida, calcularam-se as probabilidades softmax para as 77 classes em todas as mensagens de validação e teste. As regras MSP e margem foram aplicadas separadamente sobre as mesmas probabilidades previstas, sem qualquer modificação dos pesos. Para cada combinação de modelo, semente, regra de confiança e meta nominal de cobertura (80\%, 90\% e 95\%), determinou-se na validação o maior limiar \ensuremath{\tau} capaz de aceitar pelo menos a fração desejada de exemplos de validação, adotando a regra de aceitação s(x) \ensuremath{\geq} \ensuremath{\tau} (incluindo empates exatos no limiar).
+
+Os limiares foram escolhidos para atingir uma cobertura desejada na validação e aplicados sem alteração ao teste. Como as mensagens dos dois conjuntos podem receber níveis de confiança diferentes, a cobertura observada no teste pode variar em relação à meta. Por isso, apresentamos o erro seletivo junto com a cobertura efetivamente obtida por cada modelo.
+
+As métricas consolidadas reportam a média das três sementes no conjunto de teste: acurácia e Macro-F1 sem abstenção; cobertura efetiva e erro seletivo nos pontos operacionais; AURC para MSP e margem; e ECE nas previsões sem abstenção. A ECE foi calculada com 15 faixas de largura uniforme. A AURC foi computada na escala de 0 a 1 como a média dos riscos acumulados ao longo dos prefixos ordenados de forma decrescente pelo escore de confiança, com tratamento determinístico de empates registrado no protocolo experimental. Os desvios reportados para a acurácia corresponderam a desvios-padrão amostrais entre as três sementes.
+
+\section*{\textbf{5. Experimentos e Resultados}}
+
+\subsection*{\textbf{5.1. Seleção de Hiperparâmetros na Validação}}
+
+A Tabela 2 apresenta a acurácia média obtida na melhor época de cada execução no conjunto de validação para as duas taxas de aprendizado avaliadas. Tanto para o BERT quanto para o FinBERT, a taxa de 5 \ensuremath{\times} 10\textsuperscript{-}\textsuperscript{5} alcançou desempenho médio superior na validação, com ganhos de 4,59 pontos percentuais (p.p.) para o BERT e 1,97 p.p. para o FinBERT em relação à taxa de 2 \ensuremath{\times} 10\textsuperscript{-}\textsuperscript{5}. Esse resultado fundamenta a seleção da taxa de 5 \ensuremath{\times} 10\textsuperscript{-}\textsuperscript{5} dentro da grade experimental investigada.
+
+\textbf{Tabela 2.} Acurácia média de validação (\%) por modelo e taxa de aprendizado.
+
+A Tabela 3 sintetiza os resultados obtidos no conjunto de teste sem aplicação de abstenção. O BERT atingiu acurácia média de 92,61\% (desvio-padrão de 0,78 p.p.), enquanto o FinBERT obteve 92,40\% (desvio-padrão de 0,18 p.p.), uma diferença descritiva de 0,21 p.p. entre as médias. Os valores de Macro-F1 acompanharam estreitamente as acurácias de ambos os modelos (92,61\% e 92,41\%), indicando desempenho uniforme entre as 77 classes do conjunto de teste balanceado. A acurácia média observada para o BERT (92,61\%) coincide numericamente com o valor reportado por Huang et al. [2024] para BERT-base no BANKING77. Entretanto, os protocolos experimentais diferem em número de sementes, tamanho de lote, taxa inicial e critério de parada, de modo que essa proximidade apenas confirma a coerência da escala de desempenho no benchmark.
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X}
+\hline
+Modelo & Taxa 2 \ensuremath{\times} 10\textsuperscript{-}\textsuperscript{5} & Taxa 5 \ensuremath{\times} 10\textsuperscript{-}\textsuperscript{5} (Selecionada) \\
+\hline
+BERT & 88,45\% & 93,04\% \\
+FinBERT & 90,01\% & 91,98\% \\
+\hline
+\end{tabularx}
+\end{center}
+
+\textbf{Tabela 3.} Desempenho de classificação e calibração no conjunto de teste sem abstenção (média de três sementes).
+
+Dada a pequena magnitude da diferença entre as médias de acurácia e o número restrito de três sementes por modelo, os dados não permitem afirmar superioridade estatística de um modelo sobre o outro na classificação convencional. Observa-se, contudo, menor variabilidade entre sementes e menor ECE média para o FinBERT (1,59\% contra 4,36\% do BERT), sugerindo melhor alinhamento agregado entre as probabilidades previstas e a frequência observada de acertos nessa medição. Ainda assim, uma ECE reduzida reflete calibração global nas faixas avaliadas e não implica que toda previsão individual seja confiável nem que o ordenamento para abstenção seja uniformemente superior em qualquer ponto de corte.
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X}
+\hline
+Modelo & Acurácia & Desvio-padrão & Macro-F1 & ECE \\
+\hline
+BERT & 92,61\% & 0,78 p.p. & 92,61\% & 4,36\% \\
+FinBERT & 92,40\% & 0,18 p.p. & 92,41\% & 1,59\% \\
+\hline
+\end{tabularx}
+\end{center}
+
+\subsection*{\textbf{5.3. Análise da Abstenção: Cobertura Efetiva, Erro Seletivo e AURC}}
+
+A Tabela 4 reporta os resultados médios no conjunto de teste sob a regra MSP para os três limiares definidos na validação. Sem abstenção (100\% de cobertura), as taxas médias de erro foram de 7,39\% para o BERT e 7,60\% para o FinBERT. Ao aplicar a abstenção com meta nominal de 90\% na validação, o erro seletivo entre as previsões aceitas reduziu-se para 3,49\% no BERT (com cobertura efetiva de 89,91\%) e para 3,01\% no FinBERT (com cobertura efetiva de 89,49\%). Nos níveis avaliados, o erro seletivo aumentou com a cobertura efetiva.
+
+\textbf{Tabela 4.} Regra MSP no conjunto de teste: cobertura efetiva e erro seletivo médios por meta de validação.
+
+Como os limiares congelados na validação produzem coberturas efetivas ligeiramente distintas entre os dois modelos no teste, a comparação direta em cobertura idêntica requer inspeção descritiva das curvas risco–cobertura sem reajuste de limiares. Nessa leitura interpolada exatamente em 90,00\% de cobertura, os erros médios sob MSP foram de 3,50\% para o BERT e 3,24\% para o FinBERT.
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X}
+\hline
+Meta de validação & BERT: Cobertura & BERT: Erro aceito & FinBERT: Cobertura & FinBERT: Erro aceito \\
+\hline
+80\% & 78,20\% & 1,77\% & 78,86\% & 1,65\% \\
+90\% & 89,91\% & 3,49\% & 89,49\% & 3,01\% \\
+95\% & 95,26\% & 4,85\% & 94,94\% & 4,92\% \\
+\hline
+\end{tabularx}
+\end{center}
+
+A Tabela 5 apresenta os resultados correspondentes para a regra baseada na margem softmax. Embora utilize exatamente as mesmas distribuições de probabilidade da regra MSP, a margem altera a ordenação relativa das instâncias próximas à fronteira de decisão entre duas classes concorrentes, gerando pontos operacionais distintos.
+
+\textbf{Tabela 5.} Regra Margem no conjunto de teste: cobertura efetiva e erro seletivo médios por meta de validação.
+
+A Tabela 6 reúne a AURC média no conjunto de teste para ambos os modelos e critérios de confiança.
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X}
+\hline
+Meta de validação & BERT: Cobertura & BERT: Erro aceito & FinBERT: Cobertura & FinBERT: Erro aceito \\
+\hline
+80\% & 78,48\% & 1,79\% & 78,81\% & 1,54\% \\
+90\% & 90,65\% & 3,47\% & 89,48\% & 3,11\% \\
+95\% & 95,02\% & 4,86\% & 94,99\% & 4,87\% \\
+\hline
+\end{tabularx}
+\end{center}
+
+\textbf{Tabela 6.} Área sob a curva risco–cobertura (AURC) média no conjunto de teste.
+
+Dentro de cada modelo, as regras MSP e margem apresentaram valores de AURC muito próximos (0,0130 contra 0,0129 no BERT; 0,0110 contra 0,0109 no FinBERT), indicando comportamento global semelhante quando avaliados sobre as mesmas probabilidades previstas. Na comparação entre arquiteturas, o FinBERT obteve AURC média inferior em ambas as regras, resultado consistente com seus menores erros seletivos nas metas de 80\% e 90\%, embora essas diferenças devam ser interpretadas de forma descritiva.
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X}
+\hline
+Modelo & AURC (MSP) & AURC (Margem) \\
+\hline
+BERT & 0,0130 & 0,0129 \\
+FinBERT & 0,0110 & 0,0109 \\
+\hline
+\end{tabularx}
+\end{center}
+
+\subsection*{\textbf{5.4. Análise Qualitativa de Erros Recorrentes}}
+
+A inspeção das matrizes de confusão revelou que os erros mais frequentes concentram-se em pares de intenções com forte sobreposição lexical e semântica. O par mais recorrente envolveu as classes verify\_my\_identity e why\_verify\_identity, acumulando 27 confusões somadas nas três sementes do BERT e 32 nas três sementes do FinBERT (contagens agregadas entre execuções, nas quais uma mesma mensagem pode reincidir em múltiplas sementes). Outro par frequentemente confundido foi card\_arrival e card\_delivery\_estimate, que distinguem consultas sobre o recebimento de um cartão de perguntas sobre a previsão de entrega.
+
+Um caso ilustrativo do limite das regras de abstenção é a mensagem de teste "What is the need to verify my identity?", cujo rótulo verdadeiro é why\_verify\_identity. Todas as seis execuções selecionadas (três de BERT e três de FinBERT) classificaram incorretamente essa sentença como verify\_my\_identity com elevada confiança, de modo que tanto a regra MSP quanto a margem aceitaram a previsão errônea na meta de 90\% em todos os modelos. Esse exemplo evidencia que políticas baseadas exclusivamente na distribuição softmax reduzem o risco agregado do sistema, mas permanecem vulneráveis a erros sistemáticos de alta confiança quando a formulação superficial da frase compartilha termos centrais com uma classe vizinha.
+
+\subsection*{\textbf{5.5. Limitações e Reprodutibilidade}}
+
+A avaliação restringe-se ao conjunto BANKING77 em inglês sob cenário de domínio fechado, não contemplando mensagens fora de escopo (out-of-scope), variações linguísticas multilíngues ou deslocamento de distribuição em produção. O uso de três sementes sobre uma única divisão treino–validação quantifica parcialmente a variância do fine-tuning, mas não fornece base para testes inferenciais de significância estatística nem isola causalmente o efeito do pré-treinamento financeiro frente a diferenças de vocabulário e inicialização.
+
+A preservação da divisão oficial manteve sete mensagens de teste cujas sequências tokenizadas coincidem com exemplos de treino, além do uso compartilhado do conjunto de validação para seleção de época, taxa de aprendizado e limiares. Embora a avaliação final tenha ocorrido em teste congelado, estudos futuros podem mensurar explicitamente a sensibilidade das métricas à remoção dessas sobreposições e à adoção de validação cruzada aninhada.
+
+Para apoiar a reprodutibilidade dos experimentos, foram registradas as configurações de hiperparâmetros, as sementes aleatórias, os índices da divisão estratificada, os scripts de treinamento, seleção e avaliação, as previsões brutas e as métricas consolidadas. As métricas foram recalculadas a partir das previsões salvas e coincidiram com os resultados apresentados.
+
+\section*{\textbf{6. Conclusão}}
+
+Este trabalho apresentou uma análise comparativa entre BERT e FinBERT na classificação granular das 77 intenções bancárias do conjunto BANKING77, investigando o impacto de duas regras de abstenção pós-treinamento sobre a relação entre cobertura e erro seletivo. Sem abstenção, ambos os modelos alcançaram acurácias médias elevadas e próximas (92,61\% para o BERT e 92,40\% para o FinBERT), enquanto o FinBERT exibiu menor erro de calibração esperado (1,59\% contra 4,36\%) e menor área sob a curva risco–cobertura (0,0109 contra 0,0129 na regra margem).
+
+A aplicação de limiares congelados na validação mostrou-se eficaz para reduzir o risco seletivo no conjunto de teste: na meta nominal de 90\% sob a regra MSP, o erro entre mensagens aceitas caiu de 7,39\% para 3,49\% no BERT e de 7,60\% para 3,01\% no FinBERT, preservando coberturas efetivas próximas de 90\%. As regras MSP e margem apresentaram desempenho global muito semelhante quando calculadas sobre as mesmas previsões, ao passo que a análise qualitativa demonstrou que erros em intenções semanticamente sobrepostas ainda podem ocorrer com alta confiança e escapar ao filtro de abstenção.
+
+Trabalhos futuros podem avaliar múltiplas partições e cenários com detecção de intenções fora de escopo, medir o efeito das sobreposições tokenizadas identificadas na auditoria, incorporar técnicas de recalibração probabilística e modelar os custos de erros de encaminhamento e de transferências para revisão humana.
+
+\section*{\textbf{Declaração de Uso de Inteligência Artificial Generativa}}
+
+Em conformidade com o Código de Conduta para Autores em Publicações da Sociedade Brasileira de Computação (Manual de Publicações da SBC, Apêndice A, Art. 2º, inciso III), declara-se que ferramentas de inteligência artificial generativa (OpenAI ChatGPT/Codex e Google Gemini) foram empregadas exclusivamente como apoio auxiliar na organização da documentação técnica do projeto, na estruturação e revisão de código experimental, na revisão linguística do manuscrito e na diagramação textual conforme o modelo da SBC. Nenhuma ferramenta de inteligência artificial figura como autora deste trabalho. Todos os experimentos, códigos, análises estatísticas, tabelas, citações e conclusões foram integralmente verificados, validados e assumidos pelos autores humanos, que se responsabilizam plenamente pela originalidade e exatidão científica do conteúdo apresentado.
+
+\section*{\textbf{Referências}}
+
+Botzer, N., Vazquez, D., Weninger, T. e Laradji, I. (2023). TK-KNN: A Balanced Distance-Based Pseudo Labeling Approach for Semi-Supervised Intent Classification. \emph{Findings of the Association for Computational Linguistics: EMNLP 2023}. \url{https://aclanthology.org/2023.findings-emnlp.429/}
+
+Casanueva, I., Temčinas, T., Gerz, D., Henderson, M. e Vulić, I. (2020). Efficient Intent Detection with Dual Sentence Encoders. Proceedings of the 2nd Workshop on Natural Language Processing for Conversational AI, p. 38–45. \url{https://aclanthology.org/2020.nlp4convai-1.5/}
+
+Cattelan, L. F. e Silva, D. (2024). How to Fix a Broken Confidence Estimator: Evaluating Post-hoc Methods for Selective Classification with Deep Neural Networks. Proceedings of the Fortieth Conference on Uncertainty in Artificial Intelligence, PMLR 244, p. 547–584. \url{https://proceedings.mlr.press/v244/cattelan24a.html}
+
+Devlin, J., Chang, M.-W., Lee, K. e Toutanova, K. (2019). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. Proceedings of NAACL-HLT 2019, p. 4171–4186. \url{https://aclanthology.org/N19-1423/}
+
+Guo, C., Pleiss, G., Sun, Y. e Weinberger, K. Q. (2017). On Calibration of Modern Neural Networks. \emph{Proceedings of the 34th International Conference on Machine Learning}, PMLR 70, p. 1321–1330. \url{https://proceedings.mlr.press/v70/guo17a.html}
+
+Huang, P., Huang, J., Xu, Y., Li, W. e Xiao, X. (2024). Logits Reranking via Semantic Labels for Hard Samples in Text Classification. \emph{Findings of the Association for Computational Linguistics: EMNLP 2024}. \url{https://aclanthology.org/2024.findings-emnlp.657/}
+
+Peng, B., Chersoni, E., Hsu, Y.-Y. e Huang, C.-R. (2021). Is Domain Adaptation Worth Your Investment? Comparing BERT and FinBERT on Financial Tasks. Proceedings of the Third Workshop on Economics and Natural Language Processing, p. 37–44. \url{https://aclanthology.org/2021.econlp-1.5/}
+
+Xin, J., Tang, R., Yu, Y. e Lin, J. (2021). The Art of Abstention: Selective Prediction and Error Regularization for Natural Language Processing. \emph{Proceedings of ACL-IJCNLP 2021}, p. 1040–1051. \url{https://aclanthology.org/2021.acl-long.84/}
+
+Yang, Y., Uy, M. C. S. e Huang, A. (2020). FinBERT: A Pretrained Language Model for Financial Communications. \emph{arXiv preprint arXiv:2006.08097}. \url{https://arxiv.org/abs/2006.08097}
+\end{document}

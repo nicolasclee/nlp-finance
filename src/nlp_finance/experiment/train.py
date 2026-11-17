@@ -7,6 +7,7 @@ import numpy as np
 import torch
 
 from ..data import sha256
+from ..constants import AMP_INITIAL_SCALE
 from ..dataset import check_audit_review, load_prepared_data, make_dataloader
 from ..checkpoints import checkpoint_files
 from ..evaluation import classification_metrics, prediction_scores
@@ -26,6 +27,8 @@ def train_one(preparation: Path, diagnostic: Path, config: dict, output: Path) -
     for key in ("batch_size", "max_length", "precision"):
         if config.get(key) != report.get(key):
             raise ValueError(f"A configuração de {key} difere do diagnóstico")
+    if report.get("amp_initial_scale") != AMP_INITIAL_SCALE:
+        raise ValueError("A escala inicial do AMP difere do diagnóstico; refaça a medição")
     model_name = config["model_name"]
     if report.get("revisions", {}).get(model_name) != config["revision"]:
         raise ValueError("A revisão do modelo difere da usada no diagnóstico")
@@ -42,7 +45,8 @@ def train_one(preparation: Path, diagnostic: Path, config: dict, output: Path) -
     check_audit_review(preparation)
     splits, manifest = load_prepared_data(preparation)
     tokenizer = load_tokenizer(model_name, config["revision"])
-    config = {**config, "preparation_hash": preparation_hash, "diagnostic_hash": sha256(diagnostic)}
+    config = {**config, "amp_initial_scale": AMP_INITIAL_SCALE,
+              "preparation_hash": preparation_hash, "diagnostic_hash": sha256(diagnostic)}
 
     def model_factory():
         return load_model(model_name, config["revision"])

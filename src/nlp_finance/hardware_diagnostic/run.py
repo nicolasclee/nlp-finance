@@ -13,6 +13,7 @@ from pathlib import Path
 import numpy as np
 import torch
 from ..checkpoints import checkpoint_files
+from ..constants import AMP_INITIAL_SCALE
 from ..data import sha256
 from ..dataset import check_audit_review, load_prepared_data, make_dataloader
 from .measurements import (
@@ -193,7 +194,8 @@ def run_diagnostic(preparation: Path, revisions: dict, output: Path, device_name
 
     report.update({
         "status": "ready", "batch_size": batch_size, "max_length": max_length,
-        "precision": "amp_fp16", "estimated_seconds": projections,
+        "precision": "amp_fp16", "amp_initial_scale": AMP_INITIAL_SCALE,
+        "estimated_seconds": projections,
         "projection_limits": "Amostra de 512 mensagens; custos de carregamento e previsões não incluídos.",
     })
     (output / "diagnostic.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")

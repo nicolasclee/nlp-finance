@@ -1,0 +1,448 @@
+{
+  "preparation_hash": "25153496430d8c99ef221eeb562aedc2b116c4c1a14e9fb2623294f5a69bf30a",
+  "split_sha256": "409854969596c693a880abf007ad9a03d5b90f0dd762ad2dbfdbe235792a77f8",
+  "selected": {
+    "google-bert/bert-base-uncased": {
+      "rate": 5e-05,
+      "runs": [
+        {
+          "model": "google-bert/bert-base-uncased",
+          "rate": 5e-05,
+          "seed": 13,
+          "config": {
+            "model_name": "google-bert/bert-base-uncased",
+            "revision": "86b5e0934494bd15c9632b12f734a8a67f723594",
+            "seed": 13,
+            "learning_rate": 5e-05,
+            "precision": "amp_fp16",
+            "batch_size": 32,
+            "max_length": 128,
+            "device": "cuda",
+            "amp_initial_scale": 16384.0,
+            "preparation_hash": "25153496430d8c99ef221eeb562aedc2b116c4c1a14e9fb2623294f5a69bf30a",
+            "diagnostic_hash": "b4173d26558a7adadd76bd294b139f4129c4533cafbacc473632d7202b7da73b"
+          },
+          "best": {
+            "epoch": 3,
+            "accuracy": 0.9270729270729271,
+            "macro_f1": 0.9298146667602534,
+            "correct": 928,
+            "total": 1001,
+            "step": 846
+          },
+          "checkpoint": "resultados/bert_5e-5_seed13/best_model.pt",
+          "checkpoint_sha256": "b8e9ad1157e469d923688dd733d2122369b986721d1f9786b559966e9faf4702",
+          "validation_predictions": "resultados/bert_5e-5_seed13/validation_predictions.npz",
+          "validation_predictions_sha256": "f464135b121e65f4c651ba1f85ec6fc06c65cd8dd9e3be4e126d34c9a1cf8103",
+          "thresholds": {
+            "msp": {
+              "0.95": {
+                "threshold": 0.4543984498917661,
+                "target": 0.95,
+                "validation_coverage": 0.9500499500499501,
+                "ties_at_threshold": 1
+              },
+              "0.9": {
+                "threshold": 0.6006298648543164,
+                "target": 0.9,
+                "validation_coverage": 0.9000999000999002,
+                "ties_at_threshold": 1
+              },
+              "0.8": {
+                "threshold": 0.7780507527186954,
+                "target": 0.8,
+                "validation_coverage": 0.8001998001998002,
+                "ties_at_threshold": 1
+              }
+            },
+            "margin": {
+              "0.95": {
+                "threshold": 0.2192560995876011,
+                "target": 0.95,
+                "validation_coverage": 0.9500499500499501,
+                "ties_at_threshold": 1
+              },
+              "0.9": {
+                "threshold": 0.43359150038865424,
+                "target": 0.9,
+                "validation_coverage": 0.9000999000999002,
+                "ties_at_threshold": 1
+              },
+              "0.8": {
+                "threshold": 0.7067262979486436,
+                "target": 0.8,
+                "validation_coverage": 0.8001998001998002,
+                "ties_at_threshold": 1
+              }
+            }
+          }
+        },
+        {
+          "model": "google-bert/bert-base-uncased",
+          "rate": 5e-05,
+          "seed": 37,
+          "config": {
+            "model_name": "google-bert/bert-base-uncased",
+            "revision": "86b5e0934494bd15c9632b12f734a8a67f723594",
+            "seed": 37,
+            "learning_rate": 5e-05,
+            "precision": "amp_fp16",
+            "batch_size": 32,
+            "max_length": 128,
+            "device": "cuda",
+            "amp_initial_scale": 16384.0,
+            "preparation_hash": "25153496430d8c99ef221eeb562aedc2b116c4c1a14e9fb2623294f5a69bf30a",
+            "diagnostic_hash": "b4173d26558a7adadd76bd294b139f4129c4533cafbacc473632d7202b7da73b"
+          },
+          "best": {
+            "epoch": 5,
+            "accuracy": 0.9300699300699301,
+            "macro_f1": 0.9340286555646657,
+            "correct": 931,
+            "total": 1001,
+            "step": 1410
+          },
+          "checkpoint": "resultados/bert_5e-5_seed37/best_model.pt",
+          "checkpoint_sha256": "035ab61ee09f57a60fabf36def43e64c511553452f17b4f1a94251d343b2184f",
+          "validation_predictions": "resultados/bert_5e-5_seed37/validation_predictions.npz",
+          "validation_predictions_sha256": "50951ece270859e1426e97d2422abb6a9d7fe1432eb193520984d6ac0190b69e",
+          "thresholds": {
+            "msp": {
+              "0.95": {
+                "threshold": 0.5908376039393829,
+                "target": 0.95,
+                "validation_coverage": 0.9500499500499501,
+                "ties_at_threshold": 1
+              },
+              "0.9": {
+                "threshold": 0.7851262029121718,
+                "target": 0.9,
+                "validation_coverage": 0.9000999000999002,
+                "ties_at_threshold": 1
+              },
+              "0.8": {
+                "threshold": 0.9023172951460124,
+                "target": 0.8,
+                "validation_coverage": 0.8001998001998002,
+                "ties_at_threshold": 1
+              }
+            },
+            "margin": {
+              "0.95": {
+                "threshold": 0.3715096222191251,
+                "target": 0.95,
+                "validation_coverage": 0.9500499500499501,
+                "ties_at_threshold": 1
+              },
+              "0.9": {
+                "threshold": 0.6741565281096202,
+                "target": 0.9,
+                "validation_coverage": 0.9000999000999002,
+                "ties_at_threshold": 1
+              },
+              "0.8": {
+                "threshold": 0.8712996815923467,
+                "target": 0.8,
+                "validation_coverage": 0.8001998001998002,
+                "ties_at_threshold": 1
+              }
+            }
+          }
+        },
+        {
+          "model": "google-bert/bert-base-uncased",
+          "rate": 5e-05,
+          "seed": 73,
+          "config": {
+            "model_name": "google-bert/bert-base-uncased",
+            "revision": "86b5e0934494bd15c9632b12f734a8a67f723594",
+            "seed": 73,
+            "learning_rate": 5e-05,
+            "precision": "amp_fp16",
+            "batch_size": 32,
+            "max_length": 128,
+            "device": "cuda",
+            "amp_initial_scale": 16384.0,
+            "preparation_hash": "25153496430d8c99ef221eeb562aedc2b116c4c1a14e9fb2623294f5a69bf30a",
+            "diagnostic_hash": "b4173d26558a7adadd76bd294b139f4129c4533cafbacc473632d7202b7da73b"
+          },
+          "best": {
+            "epoch": 5,
+            "accuracy": 0.9340659340659341,
+            "macro_f1": 0.9386725025452424,
+            "correct": 935,
+            "total": 1001,
+            "step": 1410
+          },
+          "checkpoint": "resultados/bert_5e-5_seed73/best_model.pt",
+          "checkpoint_sha256": "ec3e6c9fc2b3a0a107aa73945603141477dc275f9f6e0008b67a3111686b7267",
+          "validation_predictions": "resultados/bert_5e-5_seed73/validation_predictions.npz",
+          "validation_predictions_sha256": "67e456d16324e8daac5ef10f60c4356bd04397fed1e1e57b9ed197bb8378472f",
+          "thresholds": {
+            "msp": {
+              "0.95": {
+                "threshold": 0.6107465960009385,
+                "target": 0.95,
+                "validation_coverage": 0.9500499500499501,
+                "ties_at_threshold": 1
+              },
+              "0.9": {
+                "threshold": 0.8196077541777621,
+                "target": 0.9,
+                "validation_coverage": 0.9000999000999002,
+                "ties_at_threshold": 1
+              },
+              "0.8": {
+                "threshold": 0.9257954780737049,
+                "target": 0.8,
+                "validation_coverage": 0.8001998001998002,
+                "ties_at_threshold": 1
+              }
+            },
+            "margin": {
+              "0.95": {
+                "threshold": 0.4362053635679617,
+                "target": 0.95,
+                "validation_coverage": 0.9500499500499501,
+                "ties_at_threshold": 1
+              },
+              "0.9": {
+                "threshold": 0.7461274253813882,
+                "target": 0.9,
+                "validation_coverage": 0.9000999000999002,
+                "ties_at_threshold": 1
+              },
+              "0.8": {
+                "threshold": 0.9055515907842028,
+                "target": 0.8,
+                "validation_coverage": 0.8001998001998002,
+                "ties_at_threshold": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "yiyanghkust/finbert-pretrain": {
+      "rate": 5e-05,
+      "runs": [
+        {
+          "model": "yiyanghkust/finbert-pretrain",
+          "rate": 5e-05,
+          "seed": 13,
+          "config": {
+            "model_name": "yiyanghkust/finbert-pretrain",
+            "revision": "88ab954a39ea6d3ce2b62cff086dd5ad1172c664",
+            "seed": 13,
+            "learning_rate": 5e-05,
+            "precision": "amp_fp16",
+            "batch_size": 32,
+            "max_length": 128,
+            "device": "cuda",
+            "amp_initial_scale": 16384.0,
+            "preparation_hash": "25153496430d8c99ef221eeb562aedc2b116c4c1a14e9fb2623294f5a69bf30a",
+            "diagnostic_hash": "b4173d26558a7adadd76bd294b139f4129c4533cafbacc473632d7202b7da73b"
+          },
+          "best": {
+            "epoch": 4,
+            "accuracy": 0.9210789210789211,
+            "macro_f1": 0.9236497712002786,
+            "correct": 922,
+            "total": 1001,
+            "step": 1128
+          },
+          "checkpoint": "resultados/finbert_5e-5_seed13/best_model.pt",
+          "checkpoint_sha256": "a6f5e11f144bc9192e0138d5c10e49dbab810daf3ce833dc4548a3d04b48f75f",
+          "validation_predictions": "resultados/finbert_5e-5_seed13/validation_predictions.npz",
+          "validation_predictions_sha256": "3b9ea0afae54e537e60c8ff9329347add4d37444e8ae9ab2a42f88f925ed611f",
+          "thresholds": {
+            "msp": {
+              "0.95": {
+                "threshold": 0.550565348811285,
+                "target": 0.95,
+                "validation_coverage": 0.9500499500499501,
+                "ties_at_threshold": 1
+              },
+              "0.9": {
+                "threshold": 0.7956668744229302,
+                "target": 0.9,
+                "validation_coverage": 0.9000999000999002,
+                "ties_at_threshold": 1
+              },
+              "0.8": {
+                "threshold": 0.9320749834121344,
+                "target": 0.8,
+                "validation_coverage": 0.8001998001998002,
+                "ties_at_threshold": 1
+              }
+            },
+            "margin": {
+              "0.95": {
+                "threshold": 0.3508721539342075,
+                "target": 0.95,
+                "validation_coverage": 0.9500499500499501,
+                "ties_at_threshold": 1
+              },
+              "0.9": {
+                "threshold": 0.7098631291891694,
+                "target": 0.9,
+                "validation_coverage": 0.9000999000999002,
+                "ties_at_threshold": 1
+              },
+              "0.8": {
+                "threshold": 0.9094668698124271,
+                "target": 0.8,
+                "validation_coverage": 0.8001998001998002,
+                "ties_at_threshold": 1
+              }
+            }
+          }
+        },
+        {
+          "model": "yiyanghkust/finbert-pretrain",
+          "rate": 5e-05,
+          "seed": 37,
+          "config": {
+            "model_name": "yiyanghkust/finbert-pretrain",
+            "revision": "88ab954a39ea6d3ce2b62cff086dd5ad1172c664",
+            "seed": 37,
+            "learning_rate": 5e-05,
+            "precision": "amp_fp16",
+            "batch_size": 32,
+            "max_length": 128,
+            "device": "cuda",
+            "amp_initial_scale": 16384.0,
+            "preparation_hash": "25153496430d8c99ef221eeb562aedc2b116c4c1a14e9fb2623294f5a69bf30a",
+            "diagnostic_hash": "b4173d26558a7adadd76bd294b139f4129c4533cafbacc473632d7202b7da73b"
+          },
+          "best": {
+            "epoch": 5,
+            "accuracy": 0.9180819180819181,
+            "macro_f1": 0.922976346383077,
+            "correct": 919,
+            "total": 1001,
+            "step": 1410
+          },
+          "checkpoint": "resultados/finbert_5e-5_seed37/best_model.pt",
+          "checkpoint_sha256": "36b70f8adb2adc5d8351d73ba825e4731c8941bf8a4b519f6051d19e6f685789",
+          "validation_predictions": "resultados/finbert_5e-5_seed37/validation_predictions.npz",
+          "validation_predictions_sha256": "dacda4b5ce0e186337709833ff68f31a638eadda1bb97a46b8301dbc25098dc4",
+          "thresholds": {
+            "msp": {
+              "0.95": {
+                "threshold": 0.6463091170002442,
+                "target": 0.95,
+                "validation_coverage": 0.9500499500499501,
+                "ties_at_threshold": 1
+              },
+              "0.9": {
+                "threshold": 0.8580552929865859,
+                "target": 0.9,
+                "validation_coverage": 0.9000999000999002,
+                "ties_at_threshold": 1
+              },
+              "0.8": {
+                "threshold": 0.9553151791750634,
+                "target": 0.8,
+                "validation_coverage": 0.8001998001998002,
+                "ties_at_threshold": 1
+              }
+            },
+            "margin": {
+              "0.95": {
+                "threshold": 0.40161334366723234,
+                "target": 0.95,
+                "validation_coverage": 0.9500499500499501,
+                "ties_at_threshold": 1
+              },
+              "0.9": {
+                "threshold": 0.7798131459012558,
+                "target": 0.9,
+                "validation_coverage": 0.9000999000999002,
+                "ties_at_threshold": 1
+              },
+              "0.8": {
+                "threshold": 0.9443887445975052,
+                "target": 0.8,
+                "validation_coverage": 0.8001998001998002,
+                "ties_at_threshold": 1
+              }
+            }
+          }
+        },
+        {
+          "model": "yiyanghkust/finbert-pretrain",
+          "rate": 5e-05,
+          "seed": 73,
+          "config": {
+            "model_name": "yiyanghkust/finbert-pretrain",
+            "revision": "88ab954a39ea6d3ce2b62cff086dd5ad1172c664",
+            "seed": 73,
+            "learning_rate": 5e-05,
+            "precision": "amp_fp16",
+            "batch_size": 32,
+            "max_length": 128,
+            "device": "cuda",
+            "amp_initial_scale": 16384.0,
+            "preparation_hash": "25153496430d8c99ef221eeb562aedc2b116c4c1a14e9fb2623294f5a69bf30a",
+            "diagnostic_hash": "b4173d26558a7adadd76bd294b139f4129c4533cafbacc473632d7202b7da73b"
+          },
+          "best": {
+            "epoch": 4,
+            "accuracy": 0.9200799200799201,
+            "macro_f1": 0.9219735884132083,
+            "correct": 921,
+            "total": 1001,
+            "step": 1128
+          },
+          "checkpoint": "resultados/finbert_5e-5_seed73/best_model.pt",
+          "checkpoint_sha256": "4c4555315482b98bc5f9f519a8902bbbf1b2b256c704acff1ee0492c8b168891",
+          "validation_predictions": "resultados/finbert_5e-5_seed73/validation_predictions.npz",
+          "validation_predictions_sha256": "aa81a621363e50079c6345480ad7a4022bc850ac3443377c2a2b2682c8b2df64",
+          "thresholds": {
+            "msp": {
+              "0.95": {
+                "threshold": 0.5863496602460138,
+                "target": 0.95,
+                "validation_coverage": 0.9500499500499501,
+                "ties_at_threshold": 1
+              },
+              "0.9": {
+                "threshold": 0.805782030491183,
+                "target": 0.9,
+                "validation_coverage": 0.9000999000999002,
+                "ties_at_threshold": 1
+              },
+              "0.8": {
+                "threshold": 0.9454817787390689,
+                "target": 0.8,
+                "validation_coverage": 0.8001998001998002,
+                "ties_at_threshold": 1
+              }
+            },
+            "margin": {
+              "0.95": {
+                "threshold": 0.3334475212264131,
+                "target": 0.95,
+                "validation_coverage": 0.9500499500499501,
+                "ties_at_threshold": 1
+              },
+              "0.9": {
+                "threshold": 0.7000550677485009,
+                "target": 0.9,
+                "validation_coverage": 0.9000999000999002,
+                "ties_at_threshold": 1
+              },
+              "0.8": {
+                "threshold": 0.9289424105639272,
+                "target": 0.8,
+                "validation_coverage": 0.8001998001998002,
+                "ties_at_threshold": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

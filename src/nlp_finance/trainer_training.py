@@ -13,6 +13,7 @@ import torch
 from transformers import Trainer, TrainerCallback, TrainingArguments
 
 from .evaluation import classification_metrics
+from .constants import AMP_INITIAL_SCALE
 from .model_selection import select_epoch
 from .training import AmpMonitor, validation_logits
 
@@ -230,6 +231,9 @@ def run_with_trainer(model_factory, train_batches_factory, validation_batches_fa
             compute_metrics=compute_metrics,
             callbacks=[stability_callback],
         )
+        if precision == "amp_fp16":
+            # Usa a mesma escala medida no diagnóstico antes de preparar o otimizador.
+            trainer.accelerator.scaler = torch.amp.GradScaler("cuda", init_scale=AMP_INITIAL_SCALE)
         trainer.train()
 
         history = []

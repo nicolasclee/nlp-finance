@@ -11,6 +11,7 @@ import torch
 from sklearn.model_selection import train_test_split
 
 from ..tokenization import token_lengths
+from ..constants import AMP_INITIAL_SCALE
 from ..training import AmpMonitor, create_optimizer, create_scheduler, train_batch
 
 
@@ -98,7 +99,7 @@ def benchmark_candidate(model, warmup_batches, measured_batches, full_train_batc
     model.train()
     optimizer, _ = create_optimizer(model, 2e-5)
     scheduler, _ = create_scheduler(optimizer, full_train_batches * 5)
-    scaler = torch.amp.GradScaler("cuda", enabled=use_amp)
+    scaler = torch.amp.GradScaler("cuda", init_scale=AMP_INITIAL_SCALE, enabled=use_amp)
     initial_scale = scaler.get_scale()
 
     for batch in islice(warmup_batches, 5):
@@ -136,7 +137,7 @@ def measure_amp_stability(model, batches, full_train_batches: int, device):
     model.train()
     optimizer, _ = create_optimizer(model, 2e-5)
     scheduler, _ = create_scheduler(optimizer, full_train_batches * 5)
-    scaler = torch.amp.GradScaler("cuda", enabled=True)
+    scaler = torch.amp.GradScaler("cuda", init_scale=AMP_INITIAL_SCALE, enabled=True)
     monitor = AmpMonitor()
     events = []
 
@@ -158,7 +159,7 @@ def stress_memory(model, batch, full_train_batches: int, device, use_amp: bool) 
     model.train()
     optimizer, _ = create_optimizer(model, 2e-5)
     scheduler, _ = create_scheduler(optimizer, full_train_batches * 5)
-    scaler = torch.amp.GradScaler("cuda", enabled=use_amp)
+    scaler = torch.amp.GradScaler("cuda", init_scale=AMP_INITIAL_SCALE, enabled=use_amp)
     torch.cuda.reset_peak_memory_stats(device)
     train_batch(model, batch, optimizer, scheduler, scaler, device, use_amp)
     torch.cuda.synchronize(device)

@@ -1,0 +1,34 @@
+{
+  "frozen_sha256": "2f8a02a54618fa6c8d638bb0661a96b2811c83a0cb9ffe70749edfd71dfe8e75",
+  "runs": {
+    "google-bert/bert-base-uncased": [
+      {
+        "seed": 13,
+        "metrics": "resultados/avaliacao_final/google-bert_bert-base-uncased_seed_13.json"
+      },
+      {
+        "seed": 37,
+        "metrics": "resultados/avaliacao_final/google-bert_bert-base-uncased_seed_37.json"
+      },
+      {
+        "seed": 73,
+        "metrics": "resultados/avaliacao_final/google-bert_bert-base-uncased_seed_73.json"
+      }
+    ],
+    "yiyanghkust/finbert-pretrain": [
+      {
+        "seed": 13,
+        "metrics": "resultados/avaliacao_final/yiyanghkust_finbert-pretrain_seed_13.json"
+      },
+      {
+        "seed": 37,
+        "metrics": "resultados/avaliacao_final/yiyanghkust_finbert-pretrain_seed_37.json"
+      },
+      {
+        "seed": 73,
+        "metrics": "resultados/avaliacao_final/yiyanghkust_finbert-pretrain_seed_73.json"
+      }
+    ]
+  },
+  "baseline": "baseline.json"
+}

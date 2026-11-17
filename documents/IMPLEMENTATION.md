@@ -8,7 +8,7 @@ O autor acompanha as decisões que afetam validade e interpretação; a implemen
 
 **Modo de trabalho:** implementar diretamente cada etapa em um bloco compreensível, explicar o fluxo e apresentar o código ao autor. Por decisão explícita do autor, não exigir TDD, red–green–refactor ou testes unitários para cada função; essa orientação substitui a regra de ciclo obrigatório da seção 7 de AGENTS.md para este trabalho. Manter verificações proporcionais aos riscos científicos: auditorias de dados, conferência de métricas com exemplos conhecidos, integridade dos checkpoints e diagnóstico de treinamento. Registrar os resultados dessas verificações; não alterar ou enfraquecer testes existentes para ocultar falhas. Os testes já criados podem continuar disponíveis, sem definir o ritmo da implementação.
 
-**Situação:** critério quantitativo de AMP decidido em D44; O1–O9 aprovados e implementação iniciada. Decisões científicas adicionais ou alterações de desenho voltam ao autor; detalhes técnicos já delegados podem ser resolvidos dentro do protocolo confirmado.
+**Situação:** dados e diagnóstico concluídos; as 12 execuções científicas terminaram e a seleção na validação foi congelada em `resultados/selecao/protocolo.json`. A taxa escolhida foi 0.00005 para ambos os modelos, mantendo as três seeds e os limiares por execução. A avaliação final está em `resultados/avaliacao_final/` e o relatório em `resultados/relatorio/`. Ainda faltam a revisão com o autor e os materiais para o artigo e apresentação. O histórico e os limites do ajuste de AMP estão em RESEARCH.md, R62–R66.
 
 ## 0. Protocolo, ambiente e rastreabilidade
 
